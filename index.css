@@ -209,10 +209,12 @@ section{
     position: fixed;
     top: 0; right: -105%;
     z-index: 10000;
-    height: 100%; width: 100%;
+    min-height: 100%; width: 100%;
+    overflow-y: auto;
 }
 .login-form-container.active{
     right: 0;
+    
 }
 .login-form-container form{
     background: #fff;
@@ -221,7 +223,7 @@ section{
     padding: 2rem;
     box-shadow: var(--box-shadow);
     border-radius: .5rem;
-    margin: 2rem;   
+    margin: 1rem;   
 }
 .login-form-container form h3{
     font-size: 2.5rem;
@@ -279,7 +281,15 @@ section{
     color: var(--black);
     cursor: pointer;
 }
-
+/* Masquer le formulaire de création de compte par défaut */
+#create-account-form {
+    display: none;
+  }
+  
+  /* Afficher le formulaire actif (celui avec la classe active-form) */
+  .active-form {
+    display: block;
+  }
 
 
 .home {
