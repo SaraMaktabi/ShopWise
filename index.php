@@ -53,39 +53,56 @@
             <a href="#Reviews" class="fas fa-comments"></a> 
         </nav>
 
+        
 
 
+       
+    <?php
+        // Inclure le fichier de connexion à la base de données
+        require_once "connexion.php";
 
-        <!--login form-->
+        // Inclure le fichier de traitement du formulaire de connexion
+        require_once "login.php";
+        
+        // Inclure le fichier de traitement du formulaire de création de compte
+        require_once "create_account.php";
+    ?>
+    
+
+     <!--login form-->
         <div class="login-form-container">
             <div id="close-login-btn" class="fas fa-times"></div>
-            <form id="login-form" action="login.php" method="post" class="active-form">
+            <form id="login-form" action="" method="post" class="active-form">
                 <h3>Log in</h3>
                 <span>Email</span>
-                <input type="email" name="" class="box" placeholder="Enter your email...">
+                <input type="email" name="email" class="box" placeholder="Enter your email...">
                 <span>Password</span>
-                <input type="password" name="" class="box" id="" placeholder="Enter your password...">
+                <input type="password" name="password" class="box" id="" placeholder="Enter your password...">
                 <div class="checkbox">
                     <input type="checkbox" name="" id="remember-me">
                     <label for="remember-me">Remember me</label>
                 </div>
+                <!-- Affichage du message d'erreur s'il y en a un -->
+                <?php if ($error_message): ?>
+                    <p style="color: red;"><?php echo $error_message; ?></p>
+                <?php endif; ?>
                 <input type="submit" value="log in"  class="btn">
                 <p>Forget password ? <a href="">Click here</a></p>
                 <p>Don't have an account? <a href="#" id="show-create-account-form">Create one</a></p>
             </form>
+           
+
             <!--create account-->
-            <form id="create-account-form" action="create_account.php" method="post" >
+            <form id="create-account-form" action="create_account.php" method="post">
                 <h3>Create an Account</h3>
                 <span>Username</span>
-                <input type="text" name="username" class="box" placeholder="Enter your username...">
+                <input type="text" name="NOM" class="box" placeholder="Enter your username...">
                 <span>Phone</span>
-                <input type="tel" name="phone" class="box" placeholder="Enter your phone number...">
+                <input type="tel" name="TELEPHONE" class="box" placeholder="Enter your phone number...">
                 <span>Email</span>
-                <input type="email" name="email" class="box" placeholder="Enter your email...">
+                <input type="email" name="EMAIL" class="box" placeholder="Enter your email...">
                 <span>Password</span>
-                <input type="password" name="password" class="box" placeholder="Enter your password...">
-                <span>Confirm Password</span>
-                <input type="password" name="confirm_password" class="box" placeholder="Confirm your password...">
+                <input type="password" name="MOTDEPASSE" class="box" placeholder="Enter your password...">
                 <input type="submit" value="Create Account" class="btn">
                 <p>Already have an account? <a href="#" id="show-login-form">Log in</a></p>
             </form>
