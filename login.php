@@ -1,41 +1,46 @@
 <?php
-// authenticate.php
+// Traitement du formulaire de connexion
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Inclure le fichier de connexion à la base de données
+    require_once "connexion.php";
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST['email']) && isset($_POST['password'])) {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+    // Récupérer les données du formulaire
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-        // Include the database connection file
-        include 'connexion.php'; 
+    // Requête pour récupérer l'utilisateur avec l'email donné
+    $sql = "SELECT ID_UTILISAT, MOTDEPASSE FROM utilisateurs WHERE EMAIL = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        // Prepare and execute the SQL query to fetch the user's hashed password
-        $sqli = "SELECT ID_UTILISAT, MOTDEPASSE FROM utilisateurs WHERE EMAIL = ?";
-        $stmt = $conn->prepare($sqli);
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->bind_result($userID, $hashedPassword);
+    if ($result->num_rows == 1) {
+        // L'utilisateur existe, vérifier le mot de passe
+        $row = $result->fetch_assoc();
+        $stored_password = $row["MOTDEPASSE"];
 
-        if ($stmt->fetch()) {
-            // Verify the password
-            if (password_verify($password, $hashedPassword)) {
-                // Password is correct, user is authenticated
-                session_start();
-                $_SESSION['user_id'] = $userID;
-                header("Location: dashboard.php"); // Redirect to the dashboard or home page
-                exit();
-            } else {
-                // Password is incorrect
-                $error_message = "Incorrect email or password";
-            }
+        if (password_verify($password, $stored_password)) {
+            // Mot de passe correct, rediriger l'utilisateur vers la page de succès
+            session_start();
+            $_SESSION['user_id'] = $row["ID_UTILISAT"];
+            $stmt->close();
+            $conn->close();
+            header("Location: dashboard.php");
+            exit();
         } else {
-            // User not found
-            $error_message = "User not found";
+            // Mot de passe incorrect, redirection avec message d'erreur
+            $stmt->close();
+            $conn->close();
+            header("Location: index.php?error_message=Mot de passe incorrect");
+            exit();
         }
-
-        // Close the statement and the database connection
+    } else {
+        // L'utilisateur n'existe pas, redirection avec message d'erreur
         $stmt->close();
         $conn->close();
+        header("Location: index.php?error_message=L'email saisi n'existe pas dans la base de données");
+        exit();
     }
 }
 ?>

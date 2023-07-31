@@ -111,3 +111,60 @@ var swiper = new Swiper(".reviews-slider",{
 });
 
 
+// Fonction de validation du formulaire
+
+function validateForm() {
+    // Clear previous error messages
+    document.querySelectorAll(".error-message").forEach(element => element.innerHTML = "");
+    // Validate Password and Confirm Password match
+    const passwordInput = document.getElementById("password");
+    const password2Input = document.getElementById("password2");
+    const password2Error = document.getElementById("password2-error");
+    if (passwordInput.value !== password2Input.value) {
+        password2Error.innerHTML = "Passwords do not match.";
+        return false;
+    }
+    // Validate other required fields
+    const usernameInput = document.getElementById("username");
+    const phoneInput = document.getElementById("phone");
+    const emailInput = document.getElementById("email");
+    let isValid = true;
+    if (usernameInput.value.trim() === "") {
+        document.getElementById("username-error").innerHTML = "Please enter your username.";
+        isValid = false;
+    }
+    if (phoneInput.value.trim() === "") {
+        document.getElementById("phone-error").innerHTML = "Please enter your phone number.";
+        isValid = false;
+    }
+    if (emailInput.value.trim() === "") {
+        document.getElementById("email-error").innerHTML = "Please enter your email.";
+        isValid = false;
+    }
+    // Validate Password and Confirm Password are not empty
+    if (passwordInput.value.trim() === "") {
+        document.getElementById("password-error").innerHTML = "Please enter your password.";
+        isValid = false;
+    }
+    if (password2Input.value.trim() === "") {
+        document.getElementById("password2-error").innerHTML = "Please confirm your password.";
+        isValid = false;
+    }
+    return isValid;
+}
+
+
+
+
+
+
+
+
+    
+
+    
+
+
+
+
+

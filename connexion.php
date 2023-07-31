@@ -1,15 +1,15 @@
-<!-- connexion.php -->
 <?php
-$servername = "localhost"; 
-$username = "root"; 
+// Informations de connexion à la base de données
+$servername = "localhost";
+$username = "root";
 $password = "";
-$dbname = "shopwise"; 
+$dbname = "shopwise";
 
-// Établir la connexion à la base de données
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Connexion à la base de données
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Vérifier la connexion
-if (!$conn) {
-    die("Échec de la connexion à la base de données : " . mysqli_connect_error());
+if ($conn->connect_error) {
+    die("Erreur de connexion à la base de données : " . $conn->connect_error);
 }
 ?>

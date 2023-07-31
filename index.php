@@ -9,6 +9,7 @@
 />
 <!-- Link To CSS -->    
     <link rel="stylesheet" href="index.css">
+    <!--<link rel="stylesheet" href="assets/css/bootstrap.min.css">-->
 <!-- Box Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet"
@@ -72,7 +73,7 @@
      <!--login form-->
         <div class="login-form-container">
             <div id="close-login-btn" class="fas fa-times"></div>
-            <form id="login-form" action="" method="post" class="active-form">
+            <form id="login-form" action="login.php" method="post" class="active-form">
                 <h3>Log in</h3>
                 <span>Email</span>
                 <input type="email" name="email" class="box" placeholder="Enter your email...">
@@ -93,19 +94,99 @@
            
 
             <!--create account-->
-            <form id="create-account-form" action="create_account.php" method="post">
-                <h3>Create an Account</h3>
-                <span>Username</span>
-                <input type="text" name="NOM" class="box" placeholder="Enter your username...">
-                <span>Phone</span>
-                <input type="tel" name="TELEPHONE" class="box" placeholder="Enter your phone number...">
-                <span>Email</span>
-                <input type="email" name="EMAIL" class="box" placeholder="Enter your email...">
-                <span>Password</span>
-                <input type="password" name="MOTDEPASSE" class="box" placeholder="Enter your password...">
-                <input type="submit" value="Create Account" class="btn">
-                <p>Already have an account? <a href="#" id="show-login-form">Log in</a></p>
-            </form>
+            <form id="create-account-form" action="create_account.php" method="post" style="display: none;" onsubmit="return validateForm();">
+        <h3>Create an Account</h3>
+        <span>Username</span>
+        <input type="text" name="NOM" id="username" class="box" placeholder="Enter your username..." required>
+        <div id="username-error" class="error-message"></div>
+        
+        <span>Phone</span>
+        <input type="tel" name="TELEPHONE" id="phone" class="box" placeholder="Enter your phone number..." required>
+        <div id="phone-error" class="error-message"></div>
+        
+        <span>Email</span>
+        <input type="email" name="EMAIL" id="email" class="box" placeholder="Enter your email..." required>
+        <div id="email-error" class="error-message"></div>
+        
+        <span>Password</span>
+        <input type="password" name="MOTDEPASSE" id="password" class="box" placeholder="Enter your password..." required>
+        <div id="password-error" class="error-message"></div>
+        
+        <span>Confirm Password</span>
+        <input type="password" name="CONFIRM_MOTDEPASSE" id="password2" class="box" placeholder="Confirm your password..." required>
+        <div id="password2-error" class="error-message"></div>
+
+        <input type="submit" value="Create Account" class="btn" onclick="return validateForm();">
+        <p>Already have an account? <a href="#" id="show-login-form">Log in</a></p>
+    </form>
+
+    <script>
+        function validateForm() {
+            const usernameValue = document.getElementById('username').value.trim();
+            const phoneValue = document.getElementById('phone').value.trim();
+            const emailValue = document.getElementById('email').value.trim();
+            const passwordValue = document.getElementById('password').value.trim();
+            const password2Value = document.getElementById('password2').value.trim();
+            
+            if(usernameValue === '' ) {
+                setErrorFor(username,'Username cannot be blank' );
+                return false; // Prevent form submission
+            } else {
+                setSuccessFor(username );
+            }
+            if (emailValue ==='') {
+                setErrorFor(email, 'Email cannot be blank');
+                return false; // Prevent form submission
+            } else if (!isEmail (emailValue)) {
+                setErrorFor(email, 'Not a valid email');
+                return false; // Prevent form submission
+            } else {
+                setSuccessFor(email);
+            }
+            if (passwordValue === '') {
+                setErrorFor(password,'Password cannot be blank');
+                return false; // Prevent form submission
+            } else {
+                setSuccessFor(password);
+            }
+            if (password2Value === ''){
+                setErrorFor(password2, 'Password2 cannot be blank');
+                return false; // Prevent form submission
+            } else if(passwordValue !== password2Value) {
+                setErrorFor(password2, 'Passwords does not match');
+                return false; // Prevent form submission
+            } else{
+                setSuccessFor(password2);
+            }
+
+            // Validate other fields (phone, email, password, and password2) similarly
+
+            // Check if there are any errors
+            const errors = document.querySelectorAll('.error');
+            if (errors.length > 0) {
+                return false; // Prevent form submission if there are errors
+            }
+            return true;
+        }
+
+        function setErrorFor(inputId, message) {
+            const formControl = document.getElementById(inputId).parentElement;
+            const small = formControl.querySelector('small');
+            formControl.className = 'form-control error';
+            small.innerText = message;
+        }
+
+        function setSuccessFor(inputId) {
+            const formControl = document.getElementById(inputId).parentElement;
+            formControl.className = 'form-control success';
+        }
+
+        
+    </script>
+
+        
+
+
         </div>
         <script>
             document.getElementById("show-create-account-form").addEventListener("click", function() {
@@ -856,5 +937,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>       
     <!--link to js-->
     <script src="script.js"></script>
+    <script src="assets/js/jquery-3.7.0.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
