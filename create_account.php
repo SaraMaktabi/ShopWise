@@ -1,41 +1,80 @@
 <?php
 
-require_once "connexion.php";
+require 'connexion.php';
 
-$error_message="";
-// Initialize variables to store user input and error messages
-$username = $email = $phone = $password = "";
-$errors = array();
+if(isset($_POST['register_btn']))
+{
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
 
-// Check if the form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and validate input fields
-    $username = trim($_POST["NOM"]);
-    $email = trim($_POST["EMAIL"]);
-    $phone = trim($_POST["TELEPHONE"]);
-    $password = $_POST["MOTDEPASSE"];
+    $check_email_query = "SELECT EMAIL FROM utilisateurs WHERE EMAIL='$email'";
+    $check_email_query_run = mysqli_query($conn, $check_email_query);
 
-    // If there are no errors, proceed to create the account
-    if (count($errors) === 0) {
-        // Hash the password for security
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+    if (mysqli_num_rows($check_email_query_run)<0) 
+    {
+        $_SESSION['message']="email already existed";
+        
+    }else{
+        if($password == $cpassword)
+        {
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            //insert user data
+            $insert_query = "INSERT INTO utilisateurs (NOM, EMAIL, MOTDEPASSE, TELEPHONE ) VALUES ('$name','$email', '$hashed_password', '$phone' )";
+            $insert_query_run = mysqli_query($conn, $insert_query);
+            if ($insert_query_run) 
+            {
+                $_SESSION['message']= "registered Succesfully";
+                header('location: login.php');
+            }else{
+                $_SESSION['message']= "Something went wrong";
+                header('location: index.php.php');
+            }
+        }else{
+            $_SESSION['message']= "password do not match";
+            header('location: index.php');
+        }
+    }
 
-        // Prepare and execute the SQL query to insert data into the database
-        $sql = "INSERT INTO utilisateurs (NOM, EMAIL, MOTDEPASSE, TELEPHONE) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $username, $email, $hashed_password, $phone);
+    
+}
+else if(isset($_POST['login_btn']))
+{
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-        if ($stmt->execute()) {
-            // Account created successfully
-            // Redirect to a success page or display a success message
-            header("Location: success.php");
-            exit();
-        } else {
-            // Error occurred while inserting data into the database
-            $error_message = "Something went wrong. Please try again later.";
+
+    $login_query = "SELECT * FROM utilisateurs WHERE EMAIL='$email' AND password='$password'";
+    $login_query_run = mysqli_query($conn, $login_query);
+    if (mysqli_num_rows ($login_query_run) > 0){
+        $_SESSION['auth']= true;
+
+        $userdata = mysqli_fetch_array($login_query_run);
+        $usern= $userdata['name'];
+        $useremail= $userdata['email'];
+        $role_as= $userdata['role_as'];
+
+        $_SESSION['aute_user']= [
+            'name' => $usern,
+            'email' => $useremail
+        ];
+
+        $_SESSION['role_as']= $role_as;
+        if($role_as == 1){
+            $_SESSION['message']= "Welcome to dashboard";
+            header('localtion: ../admin/dashboard.php');
         }
 
-        $stmt->close();
+        $_SESSION['message']= "logged in successfully";
+        header('localtion: index.php');
+
+        
+
+    }else{
+        $_SESSION['message']= "Invalid Credentials";
+        header('location : index.php');
     }
 }
-?>
+

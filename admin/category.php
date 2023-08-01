@@ -1,8 +1,9 @@
 <?php 
-include('includes/header.php');
-//include('C:\xampp\htdocs\ShopWise_Project\admin\middleware');
 
-include('./admin/functions/myfunction.php');
+include('../includes/header.php');
+include('../functions/myfunction.php');
+
+
 ?>
 
 <div class="container">
@@ -19,43 +20,36 @@ include('./admin/functions/myfunction.php');
                                 <th>ID</th>
                                 <th>Names</th>
                                 <th>Image</th>
-                                <th>Status</th>
+                                <th>Description</th>
                                 <th>Edit </th> 
                             
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                                $category = getAll("categories");
-                                if(mysqli_num_rows($category)>0)
-                                {
-                                    foreach($category as $item)
-                                    {
-                                        ?>
-                                            <tr>
-                                                <td><?=$item['id']; ?></td>
-                                                <td><?=$item['name']; ?></td>
-                                                <td>
-                                                    <img src="../uploads/<?=$item['image']; ?>" alt="<?=$item['image']; ?>">
-                                                </td>
-                                                <td>
-                                                    <?=$item['status'] == '0'? "Visible":"Hidden" ?>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-primary">Edit</a>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                    }
+                        <?php
+                            $category = getAll("categories");
+                            if ($category) {
+                                while ($item = mysqli_fetch_assoc($category)) {
+                                    ?>
+                                    <tr>
+                                        <td><?= $item['ID_CATEGORIE']; ?></td>
+                                        <td><?= $item['name']; ?></td>
+                                        <td>
+                                            <img src="../uploads/<?= $item['image_cat']; ?>" width="50px" alt="<?= $item['image_cat']; ?>">
+                                        </td>
+                                        <td>
+                                        <?= $item['description']; ?>
+                                        </td>
+                                        <td>
+                                            <a href="edit-cat.php?id=<?= $item['ID_CATEGORIE']; ?>" class="btn btn-primary">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <?php
                                 }
+                            }
                             ?>
-                            <tr>
-                                <td>1</td>
-                                <td>Shoes</td>
-                                <td>1</td>
-                                <td>visibles</td>
-                                <td>Edit</td>
-                            </tr>
+
+                            
                         </tbody>
                     </table>
                 </div>
@@ -64,4 +58,4 @@ include('./admin/functions/myfunction.php');
     </div>
 </div>
 
-<?php include('includes/footer.php');  ?>
+<?php include('../includes/footer.php');  ?>

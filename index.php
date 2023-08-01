@@ -1,3 +1,6 @@
+<?php session_start(); ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,7 +76,7 @@
      <!--login form-->
         <div class="login-form-container">
             <div id="close-login-btn" class="fas fa-times"></div>
-            <form id="login-form" action="login.php" method="post" class="active-form">
+            <form id="login-form" action="create_account.php" method="post" class="active-form">
                 <h3>Log in</h3>
                 <span>Email</span>
                 <input type="email" name="email" class="box" placeholder="Enter your email...">
@@ -87,36 +90,37 @@
                 <?php if ($error_message): ?>
                     <p style="color: red;"><?php echo $error_message; ?></p>
                 <?php endif; ?>
-                <input type="submit" value="log in"  class="btn">
+                <input type="submit" name="login_btn" value="log in"  class="btn">
                 <p>Forget password ? <a href="">Click here</a></p>
                 <p>Don't have an account? <a href="#" id="show-create-account-form">Create one</a></p>
             </form>
            
 
             <!--create account-->
+            
             <form id="create-account-form" action="create_account.php" method="post" style="display: none;" onsubmit="return validateForm();">
         <h3>Create an Account</h3>
         <span>Username</span>
-        <input type="text" name="NOM" id="username" class="box" placeholder="Enter your username..." required>
+        <input type="text" name="name" id="username" class="box" placeholder="Enter your username..." required>
         <div id="username-error" class="error-message"></div>
         
         <span>Phone</span>
-        <input type="tel" name="TELEPHONE" id="phone" class="box" placeholder="Enter your phone number..." required>
+        <input type="tel" name="phone" id="phone" class="box" placeholder="Enter your phone number..." required>
         <div id="phone-error" class="error-message"></div>
         
         <span>Email</span>
-        <input type="email" name="EMAIL" id="email" class="box" placeholder="Enter your email..." required>
+        <input type="email" name="email" id="email" class="box" placeholder="Enter your email..." required>
         <div id="email-error" class="error-message"></div>
         
         <span>Password</span>
-        <input type="password" name="MOTDEPASSE" id="password" class="box" placeholder="Enter your password..." required>
+        <input type="password" name="password" id="password" class="box" placeholder="Enter your password..." required>
         <div id="password-error" class="error-message"></div>
         
         <span>Confirm Password</span>
-        <input type="password" name="CONFIRM_MOTDEPASSE" id="password2" class="box" placeholder="Confirm your password..." required>
+        <input type="password" name="cpassword" id="password2" class="box" placeholder="Confirm your password..." required>
         <div id="password2-error" class="error-message"></div>
 
-        <input type="submit" value="Create Account" class="btn" onclick="return validateForm();">
+        <input type="submit" name="register_btn" value="Create Account" class="btn" onclick="return validateForm();">
         <p>Already have an account? <a href="#" id="show-login-form">Log in</a></p>
     </form>
 
