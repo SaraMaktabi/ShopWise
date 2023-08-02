@@ -63,7 +63,7 @@ else if(isset($_POST['login_btn']))
 
         $_SESSION['role_as']= $role_as;
         if($role_as == 1){
-            $_SESSION['message']= "Welcome to dashboard";
+            $_SESSION['message']= "Welcome to dashboa";
             header('localtion: ../admin/dashboard.php');
         }
 
