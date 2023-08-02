@@ -1,6 +1,6 @@
 <?php 
 
-include('../includes/header.php');
+include('includes/header.php');
 include('../functions/myfunction.php');
 
 
@@ -21,7 +21,8 @@ include('../functions/myfunction.php');
                                 <th>Names</th>
                                 <th>Image</th>
                                 <th>Description</th>
-                                <th>Edit </th> 
+                                <th>Actions </th> 
+                                 
                             
                             </tr>
                         </thead>
@@ -42,6 +43,10 @@ include('../functions/myfunction.php');
                                         </td>
                                         <td>
                                             <a href="edit-cat.php?id=<?= $item['ID_CATEGORIE']; ?>" class="btn btn-primary">Edit</a>
+                                            <form action="code.php" method="post">
+                                                <input type="hidden" name="category_id" value="<?= $item['ID_CATEGORIE']; ?>">
+                                                <button type="submit" class="btn btn-danger" name="delete_cat_btn">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                     <?php
@@ -58,4 +63,4 @@ include('../functions/myfunction.php');
     </div>
 </div>
 
-<?php include('../includes/footer.php');  ?>
+<?php include('includes/footer.php');  ?>

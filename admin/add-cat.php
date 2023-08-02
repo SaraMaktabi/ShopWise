@@ -1,4 +1,4 @@
-<?php include('../includes/header.php');  ?>
+<?php include('includes/header.php');  ?>
 
 <div class="container">
     <div class="row mt-4">
@@ -34,4 +34,4 @@
     </div>
 </div>
 
-<?php include('../includes/footer.php');  ?>
+<?php include('includes/footer.php');  ?>

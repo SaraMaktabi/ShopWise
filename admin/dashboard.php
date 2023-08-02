@@ -1,6 +1,6 @@
 <?php 
 
-include('../includes/header.php');
+include('includes/header.php');
 //include('../middleware/adminMiddleware.php');
 ?>
 
@@ -104,4 +104,4 @@ include('../includes/header.php');
     </div>
 </div>
 
-<?php include('../includes/footer.php');  ?>
+<?php include('includes/footer.php');  ?>
