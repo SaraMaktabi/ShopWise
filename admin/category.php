@@ -13,7 +13,7 @@ include('../functions/myfunction.php');
                 <div class="card-header">
                     <h4>Categories</h4>                   
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="category_table">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -43,10 +43,12 @@ include('../functions/myfunction.php');
                                         </td>
                                         <td>
                                             <a href="edit-cat.php?id=<?= $item['ID_CATEGORIE']; ?>" class="btn btn-primary">Edit</a>
-                                            <form action="code.php" method="post">
+                                            <!--<form action="code.php" method="post">
                                                 <input type="hidden" name="category_id" value="<?= $item['ID_CATEGORIE']; ?>">
                                                 <button type="submit" class="btn btn-danger" name="delete_cat_btn">Delete</button>
-                                            </form>
+                                            </form>-->
+                                            <br>
+                                        <button type="button" class="btn btn-sm btn-danger delete_cat_btn" value="<?= $item['ID_CATEGORIE']; ?>">Delete</button>
                                         </td>
                                     </tr>
                                     <?php

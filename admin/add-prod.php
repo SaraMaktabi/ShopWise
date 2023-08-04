@@ -46,6 +46,10 @@ include('../functions/myfunction.php');
                             <label for="">Price</label>
                             <input type="text" name="price" placeholder="Enter the selling price" class="form-control">
                         </div>
+                        <div class="col-md-6">
+                            <label for="">Quantity in Stock</label>
+                            <input type="number" name="quantity_in_stock" placeholder="Enter the quantity in stock" class="form-control">
+                        </div>
                         <div class="col-md-12">
                             <label for="">Description</label>
                             <textarea rows="3" name="description" placeholder="Enter description" class="form-control"></textarea>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 01 août 2023 à 20:21
+-- Généré le : ven. 04 août 2023 à 16:23
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.0.25
 
@@ -39,12 +39,10 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`ID_CATEGORIE`, `name`, `description`, `image_cat`) VALUES
-(1, 'parfums', 'lorem impsum hrii hcbruom nnfhe jbyrok, nahrois heusylo', '1690809582.jpg'),
-(2, 'Makeup', 'lorem impsum seypli nuroser qeuty.', '1690810653.jpg'),
-(3, 'Skin care', 'lorem impsum nalopm serihyni vardenom', '1690810939.jpg'),
-(4, 'body care', 'lorem impsume nuytr verfiol qyetopm vesum ', '1690810973.jpg'),
-(5, 'hair products', 'lorem pruti impsum deybi seloji qyueri azertt', '1690811100.jpg'),
-(6, 'nails products', 'lorem oompaqs dehujil cdbhuesio moescrp ', '1690811865.jpg');
+(1, 'parfums ', 'lorem impsum hrii hcbruom nnfhe jbyrok, nahrois heusylo', '1690939909.jpg'),
+(2, 'Makeup', 'lorem impsum seypli nuroser qeuty.', '1690939921.jpg'),
+(3, 'Skin care', 'lorem impsum nalopm serihyni vardenom', '1690939936.jpg'),
+(4, 'body care', 'lorem impsume nuytr verfiol qyetopm vesum ', '1690939952.jpg');
 
 -- --------------------------------------------------------
 
@@ -71,11 +69,19 @@ CREATE TABLE `commandes` (
 CREATE TABLE `produits` (
   `ID_PRODUIT` int(11) NOT NULL,
   `ID_CATEGORIE` int(11) NOT NULL,
-  `NOM_P` varchar(100) DEFAULT NULL,
-  `DESCRIPTION` varchar(500) DEFAULT NULL,
-  `PRIX` float DEFAULT NULL,
-  `IMAGE` longblob DEFAULT NULL
+  `name` varchar(100) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `image_p` varchar(191) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `produits`
+--
+
+INSERT INTO `produits` (`ID_PRODUIT`, `ID_CATEGORIE`, `name`, `description`, `price`, `image_p`) VALUES
+(1, 2, 'si', 'lorem lorem lorem lorem', 199, '1690946879.jpg'),
+(2, 1, 'berbery', 'lorem lorem lorem lorem', 199, '1690946462.jpg');
 
 -- --------------------------------------------------------
 
@@ -124,7 +130,7 @@ CREATE TABLE `utilisateurs` (
 --
 
 INSERT INTO `utilisateurs` (`ID_UTILISAT`, `NOM`, `EMAIL`, `MOTDEPASSE`, `ROLE`, `TELEPHONE`) VALUES
-(1, 'sara', 'sara@gmail.com', '$2y$10$v8GcGSQnlQCZEG.Wn.jI5.gyuhK6rwCbJBxr.7sjdZKdTh/jEVAlC', 0, 45678),
+(1, 'sara', 'sara@gmail.com', '$2y$10$v8GcGSQnlQCZEG.Wn.jI5.gyuhK6rwCbJBxr.7sjdZKdTh/jEVAlC', 1, 45678),
 (2, 'new', 'new@gmail.com', '$2y$10$9RwV.E/N0jBNBCkc.KVESewR10P6RU6v0wKtH0oLrymPMiXi1uS/i', 0, 345678),
 (3, 'maktabi', 'maktabi@gmail.com', '$2y$10$Bv7cUbdlAtOOiiLhoAMSaOtMXrrTXY9JqFBpvn9oumISxkDbCH6Tu', 0, 23457890),
 (4, 'maktabi', 'maktabi@gmail.com', '$2y$10$enwXilWaMIomnX4n2gDX.Or8BfDYdNvQxkxxz9E365pax6PGafoOG', 0, 23457890),
@@ -197,7 +203,13 @@ ALTER TABLE `utilisateurs`
 -- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `ID_CATEGORIE` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID_CATEGORIE` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT pour la table `produits`
+--
+ALTER TABLE `produits`
+  MODIFY `ID_PRODUIT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateurs`

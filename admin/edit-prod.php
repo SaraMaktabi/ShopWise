@@ -10,10 +10,12 @@ include('../functions/myfunction.php');
                 if(isset($_GET['id'])){
                     $id = $_GET['id'];
                     $product = getById("produits", $id, "ID_PRODUIT" );
-
+                    $quant = getById('stock', $id, "PRODUIT_ID" );
+                    
                     if(mysqli_num_rows($product)>0){
 
                         $data = mysqli_fetch_array($product);
+                        $stock = mysqli_fetch_array($quant)
 
                         ?>
                             <div class="card">
@@ -27,7 +29,7 @@ include('../functions/myfunction.php');
                                 <form action="code.php" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="">Name</label>
+                                        <label for="">Category</label>
                                         <select name="category_id" class="form-select" >
                                         <option selected>Select Category</option>
                                             <?php
@@ -49,7 +51,7 @@ include('../functions/myfunction.php');
                                     <input type="hidden" name="product_id" value="<?= $data['ID_PRODUIT'] ;?>">
                                     <div class="col-md-6">
                                         <label for="">Name</label>
-                                        <input type="text" name="name" value="<?= $data['name']; ?>" placeholder="Enter your category name" class="form-control">
+                                        <input type="text" name="name" value="<?= $data['name']; ?>" placeholder="Enter your product name" class="form-control">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="" class="mb-0">Upload Image</label>
@@ -58,7 +60,10 @@ include('../functions/myfunction.php');
                                         <label for="" class="mb-0">Current Image</label>
                                         <img src="../uploads/<?= $data['image_p']; ?>" alt="Product Image" width="50px">
                                     </div>
-                                
+                                    <div class="col-md-6">
+                                        <label for="">Quantity in Stock</label>
+                                        <input type="number" name="quantity_in_stock" value="<?= $stock['QUANTITE_EN_STOCK']; ?>" placeholder="Enter the quantity in stock" class="form-control">
+                                    </div>
                                     <div class="col-md-6">
                                         <label for="">Price</label>
                                         <input type="text" name="price" value="<?= $data['price']; ?>" placeholder="Enter the selling price" class="form-control">

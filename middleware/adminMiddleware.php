@@ -9,6 +9,6 @@ if(isset($_SESSION['auth'])){
         redirect("../index.php", "You are not autorized to access this page");
     }
 }else{
-    redirect("..login.php", "login to continue");
+    redirect("../login.php", "login to continue");
 }
 ?>

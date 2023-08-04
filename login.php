@@ -1,4 +1,6 @@
 <?php
+
+echo "test";
 // Traitement du formulaire de connexion
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Inclure le fichier de connexion à la base de données
