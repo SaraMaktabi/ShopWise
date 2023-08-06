@@ -248,175 +248,52 @@
 
         <!--Featured section-->
         <section class="featured" id="featured">
-            <h1 class="heading"><span>Featured Products</span></h1>
-            <div class=" swiper featured-slider">
-                <div class="swiper-wrapper">
+    <h1 class="heading"><span>Featured Products</span></h1>
+    <div class="swiper featured-slider">
+        <div class="swiper-wrapper">
+            <?php
+            // Include the database connection file
+            include('connexion.php');
 
-                    <div class="swiper-slide box">
+            // Fetch the data from the database
+            $sql = "SELECT image_p, price FROM produits LIMIT 10"; // Assuming you have 10 featured products
+            $result = $conn->query($sql);
 
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod1.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
+            // Check if there are any results
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    // Replace the image source and price with the database values
+                    echo '<div class="swiper-slide box">
+                            <div class="icons">
+                                <a href="#" class="fas fa-search"></a>
+                                <a href="#" class="fas fa-heart"></a>
+                                <a href="#" class="fas fa-eye"></a>
+                            </div>
+                            <div class="image">
+                                <img src="uploads/' . $row['image_p'] . '" alt="' . $row['image_p'] . '">
+                            </div>
+                            <div class="content">
+                                <h3>Featured Products</h3>
+                                <div class="price">$' . $row["price"] . '<span>$500</span></div>
+                                <a href="#" class="btn">add to cart</a>
+                            </div>
+                        </div>';
+                }
+            } else {
+                echo "No featured products found in the database.";
+            }
 
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod2.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
+            // Close the database connection
+            $conn->close();
+            ?>
+        </div>    
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>   
+    </div>
+</section>
 
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod3.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
 
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod4.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod5.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod6.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod7.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod8.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod9.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide box">
-                        <div class="icons">
-                            <a href="#" class="fas fa-search"></a>
-                            <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
-                        </div>
-                        <div class="image">
-                            <img src="images/prod10.jpg" alt="products">
-                        </div>
-                        <div class="content">
-                            <h3>Featured Products</h3>
-                            <div class="price">$15.00<span>$20.99</span></div>
-                            <a href="#" class="btn">add to cart</a>
-                        </div>
-                    </div>
-                </div>    
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>   
-            </div>
-        </section>
+        
 
         <!--newsletter section-->
         <section class="newsletter">

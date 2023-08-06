@@ -1,6 +1,34 @@
 <?php
 include('includes/header.php');
 include('../config/dbconn.php');
+
+// Vérifier si le formulaire a été soumis et traiter les mises à jour de quantité
+if (isset($_POST['submit'])) {
+    $product_id = $_POST['product_id'];
+    $new_quantity = $_POST['new_quantity'];
+
+    // Mettre à jour la quantité dans la base de données
+    $update_quantity_query = "UPDATE stock SET QUANTITE_EN_STOCK = $new_quantity WHERE PRODUIT_ID = $product_id";
+    $update_quantity_result = mysqli_query($conn, $update_quantity_query);
+
+    if ($update_quantity_result) {
+        // La mise à jour a réussi, vérifier si le stock est bas et insérer une nouvelle notification si nécessaire
+        $check_stock_query = "SELECT QUANTITE_EN_STOCK, ALERTE_DE_STOCK_BAS, is_read FROM stock WHERE PRODUIT_ID = $product_id";
+        $check_stock_result = mysqli_query($conn, $check_stock_query);
+        $row = mysqli_fetch_assoc($check_stock_result);
+        $quantity_in_stock = $row['QUANTITE_EN_STOCK'];
+        $alert_threshold = $row['ALERTE_DE_STOCK_BAS'];
+        $is_read = $row['is_read'];
+
+        if ($quantity_in_stock <= $alert_threshold && $is_read == 0) {
+            // Le stock est bas et il n'y a pas encore de notification pour ce produit, insérer une nouvelle notification
+            $insert_notification_query = "INSERT INTO notifications (PRODUIT_ID) VALUES ($product_id)";
+            mysqli_query($conn, $insert_notification_query);
+        }
+    } else {
+        echo "Erreur lors de la mise à jour de la quantité.";
+    }
+}
 ?>
 
 <div class="container">
@@ -39,11 +67,7 @@ include('../config/dbconn.php');
                                 <br>
                             <?php } ?>
                         </ul>
-                        <?php
-                        // Marquer les notifications comme lues une fois qu'elles ont été affichées
-                        $mark_read_query = "UPDATE stock SET is_read = 1 WHERE QUANTITE_EN_STOCK <= ALERTE_DE_STOCK_BAS";
-                        mysqli_query($conn, $mark_read_query);
-                    } else {
+                    <?php } else {
                         echo "Aucune notification de stock bas trouvée.";
                     }
                     ?>

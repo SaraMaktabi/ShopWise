@@ -119,7 +119,7 @@ else if(isset($_POST['add_prod_btn'])) {
 
     if($product_query_run && $stock_query_run){
         move_uploaded_file($_FILES['image']['tmp_name'], $path.'/'.$filename);
-        redirect("add-prod.php", "Product added successfully");
+        redirect("products.php", "Product added successfully");
     } else {
         redirect("add-prod.php", "Something went wrong");
     }
