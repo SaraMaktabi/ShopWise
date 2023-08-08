@@ -1,6 +1,6 @@
 <?php
 
-include('../config/dbconn.php');
+include('config/dbconn.php');
 
 function getAll($table) {
     global $conn;
@@ -50,6 +50,7 @@ function getById($table, $id, $idColumnName) {
 
     return $result;
 }
+
 
 
 function redirect($url, $message) {

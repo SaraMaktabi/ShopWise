@@ -44,7 +44,7 @@
                 <nav class="navbar">
                     <a href="#home">Home</a>
                     <a href="#Featured">Featured</a>
-                    <a href="#Arrivals">Arrivals</a>
+                    <a href="categories.php">Categories</a>
                     <a href="#Reviews">Reviews</a>
                 </nav>
             </div> 
@@ -256,18 +256,18 @@
             include('connexion.php');
 
             // Fetch the data from the database
-            $sql = "SELECT image_p, price FROM produits LIMIT 10"; // Assuming you have 10 featured products
+            $sql = "SELECT image_p, price, ID_PRODUIT FROM produits LIMIT 10"; // Assuming you have 10 featured products
             $result = $conn->query($sql);
-
+            
             // Check if there are any results
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     // Replace the image source and price with the database values
                     echo '<div class="swiper-slide box">
                             <div class="icons">
-                                <a href="#" class="fas fa-search"></a>
+                                
                                 <a href="#" class="fas fa-heart"></a>
-                                <a href="#" class="fas fa-eye"></a>
+                                <a href="single_prod.php?id=' . $row["ID_PRODUIT"] . '" class="fas fa-eye"></a>
                             </div>
                             <div class="image">
                                 <img src="uploads/' . $row['image_p'] . '" alt="' . $row['image_p'] . '">
@@ -306,7 +306,7 @@
 
 
         <!--arrivals section-->
-        <section class="arrivals" id="arrivals">
+        <!--<section class="arrivals" id="arrivals">
             <h1 class="heading"><span>New Arrivals</span></h1>
             <div class="swiper arrivals-slider">
                 <div class="swiper-wrapper">
@@ -658,7 +658,7 @@
                         </a>
                     </div>
             </div>
-        </section>
+        </section>-->
 
 
 
