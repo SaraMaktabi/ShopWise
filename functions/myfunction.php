@@ -1,6 +1,6 @@
 <?php
 
-include('config/dbconn.php');
+include('../config/dbconn.php');
 
 function getAll($table) {
     global $conn;

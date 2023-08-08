@@ -9,7 +9,7 @@ include('functions/userfunction.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive E-Commerce Website </title>
+    <title>ShopWise</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
 />
@@ -63,54 +63,57 @@ include('functions/userfunction.php');
 
         <!--Categories-->
         <section class="featured" id="featured">
-    <h1 class="heading"><span>Our Categories</span></h1>
-    <div class="swiper">
-        <div class="swiper">
-            <?php
-            $categories = getAllActive("categories");
-
-            if (mysqli_num_rows($categories) > 0) {
-                foreach ($categories as $item) {
-                    ?>
-                    <div class="col-md-4" id="categ">
-                        <div class="card">
-                            <img src="uploads/<?= $item['image_cat']; ?>" alt="Category image" class="card-img-top" width="200px">
-                            <div class="card-body">
-                                <h2 class="card-title category-name"><?= $item['name']; ?></h2>
-                            </div>
-                        </div>
-                    </div>
+            <h1 class="heading"><span>Our Categories</span></h1>
+            
+                <div class="swiper">
                     <?php
+                    $categories = getAllActive("categories");
+
+                    if (mysqli_num_rows($categories) > 0) {
+                        foreach ($categories as $item) {
+                            ?>
+                            <div class="col-md-4" id="categ">
+                                <a href="produits.php?category=<?= $item['name']; ?>">
+                                    <div class="card">
+                                        <img src="uploads/<?= $item['image_cat']; ?>" alt="Category image" class="card-img-top" width="200px">
+                                        <div class="card-body">
+                                            <h2 class="card-title category-name"><?= $item['name']; ?></h2>
+                                        </div>
+                                    </div>
+                                </a>
+                                    
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "No data available";
+                    }
+                    ?>
+                </div>
+            
+            <style>
+                #categ {
+                    display: inline-block;
+                    margin: 5px;
                 }
-            } else {
-                echo "No data available";
-            }
-            ?>
-        </div>
-    </div>
-    <style>
-        #categ {
-            display: inline-block;
-            margin: 10px;
-        }
 
-        .category-name {
+                .category-name {
+                    color: #444;
+                    margin-top: 10px;
+                    text-align: center; /* Center-align the category name */
+                }
 
-            margin-top: 10px;
-            text-align: center; /* Center-align the category name */
-        }
+                .card {
+                    border: none; /* Remove default card border */
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+                    transition: transform 0.3s ease; /* Add hover effect */
+                }
 
-        .card {
-            border: none; /* Remove default card border */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-            transition: transform 0.3s ease; /* Add hover effect */
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-    </style>
-</section>
+                .card:hover {
+                    transform: translateY(-5px);
+                }
+            </style>
+        </section>
 
 
 
