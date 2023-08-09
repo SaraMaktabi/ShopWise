@@ -37,15 +37,29 @@
                     <div id="search-btn" class="fas fa-search"></div>
                     <a href="#" class="fas fa-shopping-cart"></a>
                     <a href="#" class="fas fa-heart"></a>
-                    <div id="login-btn" class="fas fa-user"></div>
+                        <?php
+                            if(isset($_SESSION['auth'])){
+                            ?>  
+                            <a href="#" class="fas fa-heart"></a>
+
+                            <?php
+                            }
+                            else
+                            {
+                                ?>
+                                <div id="login-btn" class="fas fa-user"></div>
+                            
+                            <?php
+                            }
+                        ?>
                 </div>
             </div> 
             <div class="header-2">
                 <nav class="navbar">
                     <a href="#home">Home</a>
-                    <a href="#Featured">Featured</a>
+                    <a href="#featured">Featured</a>
                     <a href="categories.php">Categories</a>
-                    <a href="#Reviews">Reviews</a>
+                    <a href="#reviews">Reviews</a>
                 </nav>
             </div> 
         </header>  
@@ -76,20 +90,14 @@
      <!--login form-->
         <div class="login-form-container">
             <div id="close-login-btn" class="fas fa-times"></div>
-            <form id="login-form" action="create_account.php" method="post" class="active-form">
+            <form id="login-form" action="functions/authcode.php" method="post" class="active-form">
                 <h3>Log in</h3>
                 <span>Email</span>
                 <input type="email" name="email" class="box" placeholder="Enter your email...">
                 <span>Password</span>
                 <input type="password" name="password" class="box" id="" placeholder="Enter your password...">
-                <div class="checkbox">
-                    <input type="checkbox" name="" id="remember-me">
-                    <label for="remember-me">Remember me</label>
-                </div>
-                <!-- Affichage du message d'erreur s'il y en a un -->
-                <?php if ($error_message): ?>
-                    <p style="color: red;"><?php echo $error_message; ?></p>
-                <?php endif; ?>
+                
+                
                 <input type="submit" name="login_btn" value="log in"  class="btn">
                 <p>Forget password ? <a href="">Click here</a></p>
                 <p>Don't have an account? <a href="#" id="show-create-account-form">Create one</a></p>
@@ -98,31 +106,42 @@
 
             <!--create account-->
             
-            <form id="create-account-form" action="create_account.php" method="post" style="display: none;" onsubmit="return validateForm();">
-        <h3>Create an Account</h3>
-        <span>Username</span>
-        <input type="text" name="name" id="username" class="box" placeholder="Enter your username..." required>
-        <div id="username-error" class="error-message"></div>
-        
-        <span>Phone</span>
-        <input type="tel" name="phone" id="phone" class="box" placeholder="Enter your phone number..." required>
-        <div id="phone-error" class="error-message"></div>
-        
-        <span>Email</span>
-        <input type="email" name="email" id="email" class="box" placeholder="Enter your email..." required>
-        <div id="email-error" class="error-message"></div>
-        
-        <span>Password</span>
-        <input type="password" name="password" id="password" class="box" placeholder="Enter your password..." required>
-        <div id="password-error" class="error-message"></div>
-        
-        <span>Confirm Password</span>
-        <input type="password" name="cpassword" id="password2" class="box" placeholder="Confirm your password..." required>
-        <div id="password2-error" class="error-message"></div>
+            <form id="create-account-form" action="functions/authcode.php" method="post" style="display: none;" onsubmit="return validateForm();">
+                <h3>Create an Account</h3>
+                <?php
+                if(isset($_SESSION['message'])){
+                    ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
 
-        <input type="submit" name="register_btn" value="Create Account" class="btn" onclick="return validateForm();">
-        <p>Already have an account? <a href="#" id="show-login-form">Log in</a></p>
-    </form>
+                    <?php
+                } 
+                ?>
+                <span>Username</span>
+                <input type="text" name="name" id="username" class="box" placeholder="Enter your username..." required>
+                <div id="username-error" class="error-message"></div>
+                
+                <span>Phone</span>
+                <input type="tel" name="phone" id="phone" class="box" placeholder="Enter your phone number..." required>
+                <div id="phone-error" class="error-message"></div>
+                
+                <span>Email</span>
+                <input type="email" name="email" id="email" class="box" placeholder="Enter your email..." required>
+                <div id="email-error" class="error-message"></div>
+                
+                <span>Password</span>
+                <input type="password" name="password" id="password" class="box" placeholder="Enter your password..." required>
+                <div id="password-error" class="error-message"></div>
+                
+                <span>Confirm Password</span>
+                <input type="password" name="cpassword" id="password2" class="box" placeholder="Confirm your password..." required>
+                <div id="password2-error" class="error-message"></div>
+
+                <input type="submit" name="register_btn" value="Create Account" class="btn" onclick="return validateForm();">
+                <p>Already have an account? <a href="#" id="show-login-form">Log in</a></p>
+            </form>
 
     <script>
         function validateForm() {
@@ -215,7 +234,7 @@
                 <div class="content">
                     <h1>Shop Now</h1>
                     <p>New Arrival of Fresh Products</p>
-                    <a href="#" class="btn">Shop Now</a>
+                    <a href="categories.php" class="btn">Shop Now</a>
                 </div>
                 
             </div>
@@ -256,7 +275,7 @@
             include('connexion.php');
 
             // Fetch the data from the database
-            $sql = "SELECT image_p, price, ID_PRODUIT FROM produits LIMIT 10"; // Assuming you have 10 featured products
+            $sql = "SELECT image_p, price, ID_PRODUIT, name FROM produits LIMIT 10"; // Assuming you have 10 featured products
             $result = $conn->query($sql);
             
             // Check if there are any results
@@ -267,15 +286,15 @@
                             <div class="icons">
                                 
                                 <a href="#" class="fas fa-heart"></a>
-                                <a href="single_prod.php?id=' . $row["ID_PRODUIT"] . '" class="fas fa-eye"></a>
+                                <a href="single_prod.php?product=' . $row["name"] . '" class="fas fa-eye"></a>
                             </div>
                             <div class="image">
                                 <img src="uploads/' . $row['image_p'] . '" alt="' . $row['image_p'] . '">
                             </div>
                             <div class="content">
-                                <h3>Featured Products</h3>
+                                <h3>' . $row["name"] . '</h3>
                                 <div class="price">$' . $row["price"] . '<span>$500</span></div>
-                                <a href="#" class="btn">add to cart</a>
+                                
                             </div>
                         </div>';
                 }
@@ -290,8 +309,7 @@
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>   
     </div>
-</section>
-
+</section>     
 
         
 
@@ -668,7 +686,7 @@
                 <h3>Deal of The Day</h3>
                 <h1>Upto 50% Off</h1>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus ipsum odio laudantium rerum temporibus consequuntur eius sint, cupiditate aspernatur veniam. Atque sunt dignissimos inventore praesentium perferendis voluptas. Corporis, eius dicta!</p>
-                <a href="#" class="btn">Shop Now</a>    
+                <a href="categories.php" class="btn">Shop Now</a>    
             </div>
             <div class="image">
                 <img src="images/dealp.jpg" alt="">

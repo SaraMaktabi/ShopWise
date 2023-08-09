@@ -1,6 +1,6 @@
 <?php
 
-require 'connexion.php';
+include('../config/dbconn.php');
 
 
 if(isset($_POST['register_btn']))
@@ -28,37 +28,46 @@ if(isset($_POST['register_btn']))
             if ($insert_query_run) 
             {
                 $_SESSION['message']= "registered Succesfully";
-                header('location: login.php');
+                header('Location: ../index.php');
             }else{
                 $_SESSION['message']= "Something went wrong";
-                header('location: index.php.php');
+                header('Location: ../index.php');
             }
         }else{
             $_SESSION['message']= "password do not match";
-            header('location: index.php');
+            header('Location: index.php');
         }
     }
 
     
 }
+
+
 else if(isset($_POST['login_btn']))
 {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
 
-    $login_query = "SELECT * FROM utilisateurs WHERE EMAIL='$email' AND password='$password'";
+    $login_query = "SELECT * FROM utilisateurs WHERE EMAIL='$email' AND MOTDEPASSE='$password'";
     $login_query_run = mysqli_query($conn, $login_query);
 
-    if (mysqli_num_rows($login_query_run) > 0){
+    if (!$login_query_run) {
+        die("Query error: " . mysqli_error($conn));
+    }
+
+    if(mysqli_num_rows($login_query_run) > 0){
         $_SESSION['auth']= true;
 
         $userdata = mysqli_fetch_array($login_query_run);
+        $userid = $userdata['ID_UTILISAT'];
         $usern= $userdata['name'];
         $useremail= $userdata['email'];
         $role_as= $userdata['role_as'];
+        
 
         $_SESSION['aute_user']= [
+            'user_id' => $userid,
             'name' => $usern,
             'email' => $useremail
         ];
@@ -67,16 +76,16 @@ else if(isset($_POST['login_btn']))
         if($role_as == 1){
             $_SESSION['message']= "Welcome to dashboa";
             header('localtion: ../admin/dashboard.php');
+        }else{
+            $_SESSION['message']= "logged in successfully";
+        header('Localtion: ../index.php');
         }
-
-        $_SESSION['message']= "logged in successfully";
-        header('localtion: index.php');
 
         
 
     }else{
         $_SESSION['message']= "Invalid Credentials";
-        header('location : ../index.php');
+        header('Location : ../index.php');
     }
 }
-
+?>

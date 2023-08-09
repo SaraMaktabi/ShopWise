@@ -1,8 +1,8 @@
 <?php
-//include('functions/userfunctions.php');
+include('functions/userfunction.php');
 ?>
 
-<?php session_start(); ?>
+
 
 
 <!DOCTYPE html>
@@ -16,6 +16,7 @@
 />
 <!-- Link To CSS -->    
     <link rel="stylesheet" href="index.css">
+    
     <!--<link rel="stylesheet" href="assets/css/bootstrap.min.css">-->
 <!-- Box Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -64,13 +65,187 @@
 
         <!--single products-->
         <?php
-        if(isset($_GET['ID_PRODUIT'])){
-            $product = $_GET[''];
+        if(isset($_GET['product'])){
+
+            $product_name = $_GET['product'];
+            $product_data = getNameActive("produits" ,$product_name);
+            $product = mysqli_fetch_array($product_data);
+
+            if($product){
+
+                ?>
+
+                <section class="featured" id="featured">
+                    <h1 class="heading"><span>Single Product</span></h1>
+                    <div class="swiper product_data">
+                        <div class="product-details">
+                            <div class="product-image">
+                                <img src="uploads/<?= $product['image_p']; ?>" alt="Product image" width="200px">
+                            </div>
+                            <div class="product-info">
+                                <h4 class="product-name"><?= $product['name']; ?></h4>
+                                <hr class="divider">
+                                <h3>Product description:</h3>
+                                <p class="product-description"><?= $product['description']; ?></p>
+                                <hr class="divider">
+                                <p class="product-price">$<?= $product['price']; ?></p>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="custom-input-group">
+                                            <div class="decrement_btn">-</div>
+                                            <input type="text" class="custom-input input-qty" value="1">
+                                            <div class="increment_btn">+</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="add-to-cart" value="<?= $product['ID_PRODUIT']; ?>"><i class="fas fa-shopping-cart"> Add to Cart</i> </button>
+                                <button class="add-to-cart"><i class="fas fa-heart"> Add to Wishlist</i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        .swiper {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 40px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+                        }
+
+                        .product-details {
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+                            display: flex;
+                            align-items: center;
+                            background-color: #fff;
+                            padding: 20px;
+                            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                            border-radius: 5px;
+                        }
+
+                        .product-image img {
+                            max-width: 100%;
+                            height: auto;
+                        }
+
+                        .product-info {
+                            margin-left: 20px;
+                        }
+
+                        .product-name {
+                            font-size: 24px;
+                            margin: 0;
+                        }
+
+                        .divider {
+                            margin: 10px 0;
+                            border: none;
+                            border-top: 1px solid #ccc;
+                        }
+
+                        .product-description {
+                            font-size: 18px;
+                            line-height: 1.5;
+                            margin: 0;
+                            color: #444;
+                        }
+                        .product-price {
+                            color: #35A29F;
+                            font-size: 20px;
+                            margin: 10px 0;
+                        }
+
+                        .add-to-cart {
+                            margin-top: 1rem;
+                            display: inline-block;
+                            padding: .9rem 3rem;
+                            border-radius: .5rem;
+                            border: none;
+                            color: #fff;
+                            background: var(--main-color);
+                            font-size: 1.7rem;
+                            cursor: pointer;
+                            font-weight: 500;
+                        }
+
+                        .add-to-cart:hover {
+                            background: var(--dark);
+                        }
+                        .custom-input-group {
+                            display: inline-flex;
+                            align-items: center;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                            overflow: hidden;
+                        }
+
+                        .decrement_btn {
+                            flex: 0 0 auto;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 5px 10px;
+                            font-size: 14px;
+                            color: #333;
+                            background-color: #f1f1f1;
+                            border: 1px solid #ccc;
+                            border-right: none;
+                            cursor: pointer;
+                        }
+                        .increment_btn {
+                            flex: 0 0 auto;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 5px 10px;
+                            font-size: 14px;
+                            color: #333;
+                            background-color: #f1f1f1;
+                            border: 1px solid #ccc;
+                            border-right: none;
+                            cursor: pointer;
+                        }
+
+                        .input-addon:last-child {
+                            border-right: 1px solid #ccc;
+                            border-left: none;
+                        }
+
+                        .custom-input {
+                            text-align: center;
+                            width: 40px;
+                            flex: 1;
+                            margin: 0;
+                            padding: 5px;
+                            font-size: 14px;
+                            color: #333;
+                            background-color: #fff;
+                            border: 1px solid #ccc;
+                            border-radius: 0;
+                            outline: none;
+                        }
+
+                        .input-addon:hover {
+                            background-color: #e0e0e0;
+                        }
+
+                    </style>
+
+                </section>
+                        
+                        
+                    
+
+                <?php
+
+            }else{
+            echo "Product not found!";
+            }
+
+
         }else{
             echo "Something went wrong";
         }
-
-
         ?>
 
 
@@ -82,6 +257,8 @@
     <script src="script.js"></script>
     <script src="assets/js/jquery-3.7.0.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+
 
 </body>
 </html>
