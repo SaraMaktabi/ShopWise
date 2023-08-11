@@ -27,28 +27,40 @@ $(document).ready(function(){
     });
 
 
-    $('.add-to-cart').click(function(e){
+    $('.addToCartBtn').click(function (e) {
         e.preventDefault();
 
+        console.log("Add to Cart button clicked"); // Ajout de console.log
         var qty = $(this).closest('.product_data').find('.input-qty').val();
 
         var prod_id = $(this).val();
 
+        console.log("Product ID:", prod_id); // Ajout de console.log
+        
         $.ajax({
             method: "POST",
             url: "functions/handlecart.php",
             data: {
-                "prod_id":prod_id,
-                "prod_qty":qty,
+                "prod_id": prod_id,
+                "prod_qty": qty,
                 "scope":"add"
             },
-        
-            success: function(response){
-                if(response == 401){
-                    alert("login to continue");
+
+            success: function (response){
+                console.log("AJAX response:", response); // Ajout de console.log
+                if(response == 201){
+                    alert("Products added to cart");
+                }else if(response == 401){
+                    alert("Login to continue");
+                }else if(response == 500){
+                    alert("Something went wrong");
                 }
+            },
+            error: function (xhr, status, error) {
+                console.log("AJAX Error:", error); // Ajout de console.log en cas d'erreur AJAX
             }
-        })
+        });
+
     });
 
 });

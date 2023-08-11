@@ -95,7 +95,7 @@
                 <span>Email</span>
                 <input type="email" name="email" class="box" placeholder="Enter your email...">
                 <span>Password</span>
-                <input type="password" name="password" class="box" id="" placeholder="Enter your password...">
+                <input type="password" name="password" class="box"  placeholder="Enter your password...">
                 
                 
                 <input type="submit" name="login_btn" value="log in"  class="btn">
@@ -317,7 +317,7 @@
         <section class="newsletter">
             <form action="">
                 <h3>Subscribe for latest updates</h3>
-                <input type="email" name="" placeholder="Enter your email..." id="" class="box">
+                <input type="email" name="" placeholder="Enter your email..."  class="box">
                 <input type="submit" value="Subscribe" class="btn">
             </form>
         </section>

@@ -1,3 +1,5 @@
+console.log("Script loaded");
+
 /*bouton de search*/
 searchForm = document.querySelector('.search-form');
 document.querySelector('#search-btn').onclick = () =>{
@@ -152,19 +154,4 @@ function validateForm() {
     }
     return isValid;
 }
-
-
-
-
-
-
-
-
-    
-
-    
-
-
-
-
 

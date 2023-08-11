@@ -46,10 +46,9 @@ if(isset($_POST['register_btn']))
 else if(isset($_POST['login_btn']))
 {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $password = $_POST['password'];
 
-
-    $login_query = "SELECT * FROM utilisateurs WHERE EMAIL='$email' AND MOTDEPASSE='$password'";
+    $login_query = "SELECT * FROM utilisateurs WHERE EMAIL='$email'";
     $login_query_run = mysqli_query($conn, $login_query);
 
     if (!$login_query_run) {
@@ -57,35 +56,40 @@ else if(isset($_POST['login_btn']))
     }
 
     if(mysqli_num_rows($login_query_run) > 0){
-        $_SESSION['auth']= true;
-
         $userdata = mysqli_fetch_array($login_query_run);
-        $userid = $userdata['ID_UTILISAT'];
-        $usern= $userdata['name'];
-        $useremail= $userdata['email'];
-        $role_as= $userdata['role_as'];
-        
+        $hashed_password = $userdata['MOTDEPASSE'];
 
-        $_SESSION['aute_user']= [
-            'user_id' => $userid,
-            'name' => $usern,
-            'email' => $useremail
-        ];
+        if(password_verify($password, $hashed_password)) {
+            $_SESSION['auth'] = true;
 
-        $_SESSION['role_as']= $role_as;
-        if($role_as == 1){
-            $_SESSION['message']= "Welcome to dashboa";
-            header('localtion: ../admin/dashboard.php');
-        }else{
-            $_SESSION['message']= "logged in successfully";
-        header('Localtion: ../index.php');
+            $userid = $userdata['ID_UTILISAT'];
+            $usern = $userdata['name'];
+            $useremail = $userdata['email'];
+            $role_as = $userdata['role_as'];
+
+            $_SESSION['auth_user'] = [
+                'user_id' => $userid,
+                'name' => $usern,
+                'email' => $useremail
+            ];
+
+            $_SESSION['role_as'] = $role_as;
+            if($role_as == 1){
+                $_SESSION['message'] = "Welcome to dashboard";
+                header('Location: ../admin/dashboard.php');
+            } else {
+                $_SESSION['message'] = "Logged in successfully";
+                header('Location: ../index.php');
+            }
+        } else {
+            $_SESSION['message'] = "Invalid Credentials";
+            header('Location: ../categories.php');
         }
-
-        
-
-    }else{
-        $_SESSION['message']= "Invalid Credentials";
-        header('Location : ../index.php');
+    } else {
+        $_SESSION['message'] = "Invalid Credentials";
+        header('Location: ../categories.php');
     }
-}
+} 
+
+
 ?>

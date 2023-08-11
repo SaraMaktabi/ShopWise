@@ -16,6 +16,10 @@ include('functions/userfunction.php');
 />
 <!-- Link To CSS -->    
     <link rel="stylesheet" href="index.css">
+
+    <!--alertify js--> 
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     
     <!--<link rel="stylesheet" href="assets/css/bootstrap.min.css">-->
 <!-- Box Icons -->
@@ -98,8 +102,8 @@ include('functions/userfunction.php');
                                         </div>
                                     </div>
                                 </div>
-                                <button class="add-to-cart" value="<?= $product['ID_PRODUIT']; ?>"><i class="fas fa-shopping-cart"> Add to Cart</i> </button>
-                                <button class="add-to-cart"><i class="fas fa-heart"> Add to Wishlist</i></button>
+                                <button class="addToCartBtn" value="<?= $product['ID_PRODUIT']; ?>"><i class="fas fa-shopping-cart"> Add to Cart</i> </button>
+                                <button class="addToCartBtn"><i class="fas fa-heart"> Add to Wishlist</i></button>
                             </div>
                         </div>
                     </div>
@@ -155,7 +159,7 @@ include('functions/userfunction.php');
                             margin: 10px 0;
                         }
 
-                        .add-to-cart {
+                        .addToCartBtn {
                             margin-top: 1rem;
                             display: inline-block;
                             padding: .9rem 3rem;
@@ -168,7 +172,7 @@ include('functions/userfunction.php');
                             font-weight: 500;
                         }
 
-                        .add-to-cart:hover {
+                        .addToCartBtn:hover {
                             background: var(--dark);
                         }
                         .custom-input-group {
@@ -251,6 +255,8 @@ include('functions/userfunction.php');
 
        
     
+    
+    
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>       
     <!--link to js-->
@@ -258,6 +264,21 @@ include('functions/userfunction.php');
     <script src="assets/js/jquery-3.7.0.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/custom.js"></script>
+
+    <!-- Alertify js-->
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+  <script>
+    <?php 
+    if(isset($_SESSION['message'])) { 
+      ?>
+        alertify.set('notifier','position', 'top-right');
+        alertify.success('<?= $_SESSION['message']; ?>');
+     <?php 
+      unset($_SESSION['message']);
+      } 
+      ?>
+  
+  </script>
 
 
 </body>
