@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                                     Product: <?= $row['product_name']; ?><br>
                                     Current Quantity in Stock: <?= $row['quantity_in_stock']; ?><br>
                                     Alert Threshold: <?= $row['alert_threshold']; ?><br>
-                                    Company Email: <?= $row['company_email']; ?>
+                                    
                                     <?php
                                     // Vérifier si le stock est bas
                                     if ($row['quantity_in_stock'] <= $row['alert_threshold']) {

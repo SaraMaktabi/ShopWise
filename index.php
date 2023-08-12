@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+
+<?php
+session_start();
+
+?>
+
 
 
 <!DOCTYPE html>
@@ -37,21 +42,13 @@
                     <div id="search-btn" class="fas fa-search"></div>
                     <a href="#" class="fas fa-shopping-cart"></a>
                     <a href="#" class="fas fa-heart"></a>
-                        <?php
-                            if(isset($_SESSION['auth'])){
-                            ?>  
-                            <a href="#" class="fas fa-heart"></a>
+                    <div id="login-btn" class="fas fa-user"></div>
+                    <?php
+                    if(isset($_SESSION['auth'])){
+                        echo '<a href="logout.php" class="fas fa-sign-out-alt"></a>';
+                    }
+                    ?>
 
-                            <?php
-                            }
-                            else
-                            {
-                                ?>
-                                <div id="login-btn" class="fas fa-user"></div>
-                            
-                            <?php
-                            }
-                        ?>
                 </div>
             </div> 
             <div class="header-2">
@@ -71,20 +68,7 @@
             <a href="#Reviews" class="fas fa-comments"></a> 
         </nav>
 
-        
-
-
-       
-    <?php
-        // Inclure le fichier de connexion à la base de données
-        require_once "connexion.php";
-
-        // Inclure le fichier de traitement du formulaire de connexion
-        require_once "login.php";
-        
-        // Inclure le fichier de traitement du formulaire de création de compte
-        require_once "create_account.php";
-    ?>
+    
     
 
      <!--login form-->
@@ -144,6 +128,17 @@
             </form>
 
     <script>
+        <?php
+if (isset($_SESSION['error'])) {
+    echo "<p class='error-message'>" . $_SESSION['error'] . "</p>";
+    unset($_SESSION['error']); // Efface le message d'erreur
+}
+
+if (isset($_SESSION['message'])) {
+    echo "<p class='success-message'>" . $_SESSION['message'] . "</p>";
+    unset($_SESSION['message']); // Efface le message de succès
+}
+?>
         function validateForm() {
             const usernameValue = document.getElementById('username').value.trim();
             const phoneValue = document.getElementById('phone').value.trim();
@@ -272,7 +267,7 @@
         <div class="swiper-wrapper">
             <?php
             // Include the database connection file
-            include('connexion.php');
+            include('config/dbconn.php');
 
             // Fetch the data from the database
             $sql = "SELECT image_p, price, ID_PRODUIT, name FROM produits LIMIT 10"; // Assuming you have 10 featured products
@@ -321,363 +316,6 @@
                 <input type="submit" value="Subscribe" class="btn">
             </form>
         </section>
-
-
-        <!--arrivals section-->
-        <!--<section class="arrivals" id="arrivals">
-            <h1 class="heading"><span>New Arrivals</span></h1>
-            <div class="swiper arrivals-slider">
-                <div class="swiper-wrapper">
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod1.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod2.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod3.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod4.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod5.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod6.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod7.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod8.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod9.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="swiper-slide box">
-                        <div class="image">
-                            <img src="images/prod10.jpg" alt="">
-                        </div>
-                        <div class="content">
-                            <h3>new arrivals</h3>
-                            <div class="price">$15.99 <span>$20.99</span></div>
-                            <div class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="swiper arrivals-slider">
-                    <div class="swiper-wrapper">
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod1.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod2.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod3.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod4.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod5.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod6.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod7.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod8.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod9.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-    
-                        <a href="#" class="swiper-slide box">
-                            <div class="image">
-                                <img src="images/prod10.jpg" alt="">
-                            </div>
-                            <div class="content">
-                                <h3>new arrivals</h3>
-                                <div class="price">$15.99 <span>$20.99</span></div>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-            </div>
-        </section>-->
-
 
 
         <!--deal section-->
@@ -820,24 +458,30 @@
                 <a href="" class="fab fa-pinterest"></a>
             </div>
             
-        </section>
-
-
-
-
-
-
-
-
-
-
-
-        
+        </section>        
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>       
     <!--link to js-->
     <script src="script.js"></script>
+    
     <script src="assets/js/jquery-3.7.0.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <?php
+if (isset($_SESSION['auth']) && $_SESSION['auth']) {
+    echo "<script>";
+    echo "console.log('User is logged in.');";
+    echo "</script>";
+} else {
+    echo "<script>";
+    echo "console.log('User is not logged in.');";
+    echo "</script>";
+}
+
+if (isset($_SESSION['message'])) {
+    echo "<script>";
+    echo "console.log('Message from server:', '" . $_SESSION['message'] . "');";
+    echo "</script>";
+}
+?>
 
 </body>
 </html>

@@ -23,7 +23,18 @@
                             <textarea rows="3" name="description" placeholder="Enter description" class="form-control"></textarea>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary" name="add_cat_btn">Save</button>
+                            <button type="submit" class="btn" name="add_cat_btn">Save</button>
+                            <style>
+                                .btn{
+                                    margin-top: 20px;
+                                    background-color:#b97375;
+                                    color: white;
+                                }
+                                .btn:hover{
+                                    background-color: #9c5254;
+                                    color: white;
+                                }
+                            </style>
                         </div>
                     </div>
                     

@@ -14,11 +14,9 @@ if(isset($_POST['register_btn']))
     $check_email_query = "SELECT EMAIL FROM utilisateurs WHERE EMAIL='$email'";
     $check_email_query_run = mysqli_query($conn, $check_email_query);
 
-    if (mysqli_num_rows($check_email_query_run)<0) 
-    {
-        $_SESSION['message']="email already existed";
-        
-    }else{
+    if (mysqli_num_rows($check_email_query_run) > 0) {
+        echo "<script>console.log('Email already exists');</script>";
+    } else{
         if($password == $cpassword)
         {
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
@@ -30,11 +28,11 @@ if(isset($_POST['register_btn']))
                 $_SESSION['message']= "registered Succesfully";
                 header('Location: ../index.php');
             }else{
-                $_SESSION['message']= "Something went wrong";
+                echo "<script>console.log('Something went wrong');</script>";
                 header('Location: ../index.php');
             }
         }else{
-            $_SESSION['message']= "password do not match";
+            echo "<script>console.log('Passwords do not match');</script>";
             header('Location: index.php');
         }
     }
@@ -76,20 +74,24 @@ else if(isset($_POST['login_btn']))
             $_SESSION['role_as'] = $role_as;
             if($role_as == 1){
                 $_SESSION['message'] = "Welcome to dashboard";
+                echo "<script>console.log('Welcome to dashboar');</script>";
                 header('Location: ../admin/dashboard.php');
             } else {
                 $_SESSION['message'] = "Logged in successfully";
+                echo "<script>console.log('Logged in successfully');</script>";
                 header('Location: ../index.php');
+                
             }
         } else {
-            $_SESSION['message'] = "Invalid Credentials";
+            echo "<script>console.log('Invalid Credentials');</script>";
             header('Location: ../categories.php');
         }
     } else {
-        $_SESSION['message'] = "Invalid Credentials";
+        echo "<script>console.log('Invalid Credentials');</script>";
         header('Location: ../categories.php');
     }
 } 
 
 
 ?>
+

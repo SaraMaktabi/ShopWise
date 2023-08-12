@@ -14,7 +14,7 @@ $page= substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100" id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white <?= $page == "dashboard.php"? 'active bg-gradient-primary':''; ?>" href="../admin/dashboard.php">
+          <a class="nav-link text-white <?= $page == "dashboard.php"? 'active bg-primary':''; ?>" href="../admin/dashboard.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -22,7 +22,7 @@ $page= substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white <?= $page == "add-cat.php"? 'active bg-gradient-primary':''; ?>" href="add-cat.php">
+          <a class="nav-link text-white <?= $page == "add-cat.php"? 'active bg-primary':''; ?>" href="add-cat.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -30,7 +30,7 @@ $page= substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white <?= $page == "category.php"? 'active bg-gradient-primary':''; ?>" href="category.php">
+          <a class="nav-link text-white <?= $page == "category.php"? 'active bg-primary':''; ?>" href="category.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -38,7 +38,7 @@ $page= substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white <?= $page == "Products.php"? 'active bg-gradient-primary':''; ?>" href="Products.php">
+          <a class="nav-link text-white <?= $page == "Products.php"? 'active bg-primary':''; ?>" href="Products.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -46,7 +46,7 @@ $page= substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white <?= $page == "add-Prod.php"? 'active bg-gradient-primary':''; ?>" href="add-Prod.php">
+          <a class="nav-link text-white <?= $page == "add-Prod.php"? 'active bg-primary':''; ?>" href="add-Prod.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -57,8 +57,23 @@ $page= substr($_SERVER['SCRIPT_NAME'], strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0 ">
       <div class="mx-3">
-        <a class="btn bg-gradient-primary mt-4 w-100" 
+        <a class="btn" 
         href="../logout.php" type="button">logout</a>
+        <style>
+          .btn{
+            width: 100px;
+            margin-top: 20px;
+            background-color:#b97375;
+            color: white;
+          }
+          .btn:hover{
+            background-color: #9c5254;
+            color: white;
+          }
+          .bg-primary {
+            background-color: #b97375 !important; 
+          }                 
+        </style>
       </div>
     </div>
   </aside>
