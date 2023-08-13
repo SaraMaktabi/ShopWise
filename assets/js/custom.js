@@ -32,7 +32,6 @@ $(document).ready(function(){
 
         console.log("Add to Cart button clicked"); // Ajout de console.log
         var qty = $(this).closest('.product_data').find('.input-qty').val();
-
         var prod_id = $(this).val();
 
         console.log("Product ID:", prod_id); // Ajout de console.log
@@ -49,15 +48,57 @@ $(document).ready(function(){
             success: function (response){
                 console.log("AJAX response:", response); // Ajout de console.log
                 if(response == 201){
-                    alert("Products added to cart");
+                    alertify.success("Product added to card");
+                }else if(response == "exist"){
+                    alertify.success("Product already in cart");     
                 }else if(response == 401){
-                    alert("Login to continue");
+                    alertify.success("Login to continue");     
                 }else if(response == 500){
-                    alert("Something went wrong");
+                    alertify.success("Something went wrong");     
                 }
             },
             error: function (xhr, status, error) {
                 console.log("AJAX Error:", error); // Ajout de console.log en cas d'erreur AJAX
+            }
+        });
+
+    });
+
+    $(document).on('click','.updateqty', function () {
+        var qty = $(this).closest('.product_data').find('.input-qty').val();
+        
+        var prod_id = $(this).closest('.product_data').find('.prodId').val();
+
+        $.ajax({
+            method: "POST",
+            url: "functions/handlecart.php",
+            data: {
+                "prod_id": prod_id,
+                "prod_qty": qty,
+                "scope":"update"
+            },
+            success: function(response){
+                //alert(response);
+            }
+        });
+    });
+
+    $(document).on('click','.deleteitem', function () {
+        var cart_id = $(this).val();
+        //alert(cart_id);
+        $.ajax({
+            method: "POST",
+            url: "functions/handlecart.php",
+            data: {
+                "cart_id": cart_id, 
+                "scope":"delete"
+            },
+            success: function(response){
+                if(response == 200){
+                    alertify.success("Item deleted succesfully");
+                }else{
+                    alertify.success(response);
+                }
             }
         });
 

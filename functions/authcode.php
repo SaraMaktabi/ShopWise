@@ -41,8 +41,8 @@ if(isset($_POST['register_btn']))
 }
 
 
-else if(isset($_POST['login_btn']))
-{
+elseif (isset($_POST['login_btn'])) {
+    // Login logic
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
@@ -53,45 +53,42 @@ else if(isset($_POST['login_btn']))
         die("Query error: " . mysqli_error($conn));
     }
 
-    if(mysqli_num_rows($login_query_run) > 0){
-        $userdata = mysqli_fetch_array($login_query_run);
+    if (mysqli_num_rows($login_query_run) > 0) {
+        $userdata = mysqli_fetch_assoc($login_query_run);
         $hashed_password = $userdata['MOTDEPASSE'];
 
-        if(password_verify($password, $hashed_password)) {
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $userdata['ID']; // Store user ID in session
             $_SESSION['auth'] = true;
-
-            $userid = $userdata['ID_UTILISAT'];
-            $usern = $userdata['name'];
+            
+            $userid = $userdata['ID'];
+            $username = $userdata['name'];
             $useremail = $userdata['email'];
             $role_as = $userdata['role_as'];
 
             $_SESSION['auth_user'] = [
                 'user_id' => $userid,
-                'name' => $usern,
+                'name' => $username,
                 'email' => $useremail
             ];
 
             $_SESSION['role_as'] = $role_as;
-            if($role_as == 1){
+            if ($role_as == 1) {
                 $_SESSION['message'] = "Welcome to dashboard";
-                echo "<script>console.log('Welcome to dashboar');</script>";
                 header('Location: ../admin/dashboard.php');
             } else {
                 $_SESSION['message'] = "Logged in successfully";
-                echo "<script>console.log('Logged in successfully');</script>";
                 header('Location: ../index.php');
-                
             }
         } else {
-            echo "<script>console.log('Invalid Credentials');</script>";
+            $_SESSION['error'] = 'Invalid Credentials';
             header('Location: ../categories.php');
         }
     } else {
-        echo "<script>console.log('Invalid Credentials');</script>";
+        $_SESSION['error'] = 'Invalid Credentials';
         header('Location: ../categories.php');
     }
-} 
-
+}
 
 ?>
 

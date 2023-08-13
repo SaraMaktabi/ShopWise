@@ -22,6 +22,10 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+    <!--alertify js--> 
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
 </head>
 <body>
     
@@ -40,7 +44,7 @@ session_start();
                 </form>
                 <div class="icons">
                     <div id="search-btn" class="fas fa-search"></div>
-                    <a href="#" class="fas fa-shopping-cart"></a>
+                    <a href="cart.php" class="fas fa-shopping-cart"></a>
                     <a href="#" class="fas fa-heart"></a>
                     <div id="login-btn" class="fas fa-user"></div>
                     <?php
@@ -68,13 +72,60 @@ session_start();
             <a href="#Reviews" class="fas fa-comments"></a> 
         </nav>
 
-    
-    
+    <?php
+    include('config/dbconn.php');
+        if (isset($_POST['login_btn'])) {
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = $_POST['password'];
+
+    $login_query = "SELECT * FROM utilisateurs WHERE EMAIL='$email'";
+    $login_query_run = mysqli_query($conn, $login_query);
+
+    if (!$login_query_run) {
+        die("Query error: " . mysqli_error($conn));
+    }
+
+    if (mysqli_num_rows($login_query_run) > 0) {
+        $userdata = mysqli_fetch_assoc($login_query_run);
+        $hashed_password = $userdata['MOTDEPASSE'];
+
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['user_id'] = $userdata['ID'];
+            $_SESSION['auth'] = true;
+            $userid = $userdata['ID'];
+            $username = $userdata['name'];
+            $useremail = $userdata['email'];
+            $role_as = $userdata['role_as'];
+
+            $_SESSION['auth_user'] = [
+                'user_id' => $userid,
+                'name' => $username,
+                'email' => $useremail
+            ];
+
+            $_SESSION['role_as'] = $role_as;
+            if ($role_as == 1) {
+                $_SESSION['message'] = "Welcome to dashboard";
+                header('Location: ../admin/dashboard.php');
+            } else {
+                $_SESSION['message'] = "Logged in successfully";
+                header('Location: ../index.php');
+            }
+        } else {
+            $_SESSION['error'] = 'Invalid Credentials';
+            header('Location: ../categories.php');
+        }
+    } else {
+        $_SESSION['error'] = 'Invalid Credentials';
+        header('Location: ../categories.php');
+    }
+}
+?>           
 
      <!--login form-->
         <div class="login-form-container">
             <div id="close-login-btn" class="fas fa-times"></div>
-            <form id="login-form" action="functions/authcode.php" method="post" class="active-form">
+            <form id="login-form" action="" method="post" class="active-form">
                 <h3>Log in</h3>
                 <span>Email</span>
                 <input type="email" name="email" class="box" placeholder="Enter your email...">
@@ -86,11 +137,44 @@ session_start();
                 <p>Forget password ? <a href="">Click here</a></p>
                 <p>Don't have an account? <a href="#" id="show-create-account-form">Create one</a></p>
             </form>
-           
+
+        <?php  
+        include('config/dbconn.php');  
+            if (isset($_POST['register_btn'])) {
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
+
+    $check_email_query = "SELECT EMAIL FROM utilisateurs WHERE EMAIL='$email'";
+    $check_email_query_run = mysqli_query($conn, $check_email_query);
+
+    if (mysqli_num_rows($check_email_query_run) > 0) {
+        echo "<script>console.log('Email already exists');</script>";
+    } else {
+        if ($password == $cpassword) {
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+            $insert_query = "INSERT INTO utilisateurs (NOM, EMAIL, MOTDEPASSE, TELEPHONE ) VALUES ('$name','$email', '$hashed_password', '$phone' )";
+            $insert_query_run = mysqli_query($conn, $insert_query);
+            if ($insert_query_run) {
+                $_SESSION['message'] = "Registered successfully";
+                header('Location: ../index.php');
+            } else {
+                echo "<script>console.log('Something went wrong');</script>";
+                header('Location: ../index.php');
+            }
+        } else {
+            echo "<script>console.log('Passwords do not match');</script>";
+            header('Location: ../index.php');
+        }
+    }
+}
+?>   
 
             <!--create account-->
             
-            <form id="create-account-form" action="functions/authcode.php" method="post" style="display: none;" onsubmit="return validateForm();">
+            <form id="create-account-form" action="" method="post" style="display: none;" onsubmit="return validateForm();">
                 <h3>Create an Account</h3>
                 <?php
                 if(isset($_SESSION['message'])){
@@ -128,17 +212,7 @@ session_start();
             </form>
 
     <script>
-        <?php
-if (isset($_SESSION['error'])) {
-    echo "<p class='error-message'>" . $_SESSION['error'] . "</p>";
-    unset($_SESSION['error']); // Efface le message d'erreur
-}
-
-if (isset($_SESSION['message'])) {
-    echo "<p class='success-message'>" . $_SESSION['message'] . "</p>";
-    unset($_SESSION['message']); // Efface le message de succès
-}
-?>
+        
         function validateForm() {
             const usernameValue = document.getElementById('username').value.trim();
             const phoneValue = document.getElementById('phone').value.trim();
@@ -458,7 +532,23 @@ if (isset($_SESSION['message'])) {
                 <a href="" class="fab fa-pinterest"></a>
             </div>
             
-        </section>        
+        </section>   
+        
+        <!-- Alertify js-->
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+        <script>
+             alertify.set('notifier','position', 'top-right');
+        <?php 
+        if(isset($_SESSION['message'])) { 
+            ?>
+            alertify.success('<?= $_SESSION['message']; ?>');
+        <?php 
+            unset($_SESSION['message']);
+            } 
+            ?>
+
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>       
     <!--link to js-->
     <script src="script.js"></script>
@@ -466,6 +556,8 @@ if (isset($_SESSION['message'])) {
     <script src="assets/js/jquery-3.7.0.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <?php
+
+
 if (isset($_SESSION['auth']) && $_SESSION['auth']) {
     echo "<script>";
     echo "console.log('User is logged in.');";
@@ -478,10 +570,12 @@ if (isset($_SESSION['auth']) && $_SESSION['auth']) {
 
 if (isset($_SESSION['message'])) {
     echo "<script>";
-    echo "console.log('Message from server:', '" . $_SESSION['message'] . "');";
+    echo "console.log('Message from server: " . $_SESSION['message'] . "');";
     echo "</script>";
+    unset($_SESSION['message']); // Clear the message after displaying
 }
 ?>
+
 
 </body>
 </html>

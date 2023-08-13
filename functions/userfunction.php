@@ -53,6 +53,14 @@ function getIdActive($table, $id, $idColumnName) {
     return $result;
 }
 
+function getCartItems(){
+    global $conn;
+    $query = "SELECT c.id as cid, c.prod_id, c.prod_qty, p.ID_PRODUIT as pid, p.name, p.image_p, p.price  
+    FROM carts c, produits p  WHERE c.prod_id=p.ID_PRODUIT ORDER BY c.id DESC";
+    return $query_run = mysqli_query($conn, $query);
+
+}
+
 function redirect($url, $message) {
     $_SESSION['message'] = $message;
     header("Location: $url");

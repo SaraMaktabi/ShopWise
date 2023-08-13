@@ -35,7 +35,7 @@ include('../functions/myfunction.php');
                         </div>
                         <div class="col-md-6">
                             <label for="">Name</label>
-                            <input type="text" name="name" placeholder="Enter your category name" class="form-control">
+                            <input type="text" name="name" placeholder="Enter your Product name" class="form-control">
                         </div>
                         <div class="col-md-6">
                             <label for="">Upload Image</label>

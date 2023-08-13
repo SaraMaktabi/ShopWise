@@ -1,7 +1,11 @@
 <?php
 session_start();
-// Détruire toutes les données de session
+// Set authentication status to false
+$_SESSION['auth'] = false;
+
+// Destroy all session data
 session_destroy();
-// Rediriger vers la page d'accueil ou une autre page
-header('Location: index.php'); // Changez "index.php" par la page de redirection souhaitée
+
+// Redirect to the desired page
+header('Location: index.php'); // Change "index.php" to the page you want to redirect to
 ?>
