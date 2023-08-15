@@ -58,13 +58,13 @@ elseif (isset($_POST['login_btn'])) {
         $hashed_password = $userdata['MOTDEPASSE'];
 
         if (password_verify($password, $hashed_password)) {
-            $_SESSION['user_id'] = $userdata['ID']; // Store user ID in session
+            $_SESSION['user_id'] = $userdata['ID_UTILISAT']; // Store user ID in session
             $_SESSION['auth'] = true;
             
-            $userid = $userdata['ID'];
-            $username = $userdata['name'];
-            $useremail = $userdata['email'];
-            $role_as = $userdata['role_as'];
+            $userid = $userdata['ID_UTILISAT'];
+            $username = $userdata['NOM'];
+            $useremail = $userdata['EMAIL'];
+            $role_as = $userdata['ROLE'];
 
             $_SESSION['auth_user'] = [
                 'user_id' => $userid,

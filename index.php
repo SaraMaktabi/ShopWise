@@ -45,10 +45,10 @@ session_start();
                 <div class="icons">
                     <div id="search-btn" class="fas fa-search"></div>
                     <a href="cart.php" class="fas fa-shopping-cart"></a>
-                    <a href="#" class="fas fa-heart"></a>
+                    
                     <div id="login-btn" class="fas fa-user"></div>
                     <?php
-                    if(isset($_SESSION['auth'])){
+                    if(isset($_SESSION['user_id'])){
                         echo '<a href="logout.php" class="fas fa-sign-out-alt"></a>';
                     }
                     ?>
@@ -125,7 +125,7 @@ session_start();
      <!--login form-->
         <div class="login-form-container">
             <div id="close-login-btn" class="fas fa-times"></div>
-            <form id="login-form" action="" method="post" class="active-form">
+            <form id="login-form" action="login.php" method="post" class="active-form">
                 <h3>Log in</h3>
                 <span>Email</span>
                 <input type="email" name="email" class="box" placeholder="Enter your email...">
@@ -138,55 +138,14 @@ session_start();
                 <p>Don't have an account? <a href="#" id="show-create-account-form">Create one</a></p>
             </form>
 
-        <?php  
-        include('config/dbconn.php');  
-            if (isset($_POST['register_btn'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $cpassword = mysqli_real_escape_string($conn, $_POST['cpassword']);
-
-    $check_email_query = "SELECT EMAIL FROM utilisateurs WHERE EMAIL='$email'";
-    $check_email_query_run = mysqli_query($conn, $check_email_query);
-
-    if (mysqli_num_rows($check_email_query_run) > 0) {
-        echo "<script>console.log('Email already exists');</script>";
-    } else {
-        if ($password == $cpassword) {
-            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-            $insert_query = "INSERT INTO utilisateurs (NOM, EMAIL, MOTDEPASSE, TELEPHONE ) VALUES ('$name','$email', '$hashed_password', '$phone' )";
-            $insert_query_run = mysqli_query($conn, $insert_query);
-            if ($insert_query_run) {
-                $_SESSION['message'] = "Registered successfully";
-                header('Location: ../index.php');
-            } else {
-                echo "<script>console.log('Something went wrong');</script>";
-                header('Location: ../index.php');
-            }
-        } else {
-            echo "<script>console.log('Passwords do not match');</script>";
-            header('Location: ../index.php');
-        }
-    }
-}
-?>   
+        
 
             <!--create account-->
             
-            <form id="create-account-form" action="" method="post" style="display: none;" onsubmit="return validateForm();">
+            <form id="create-account-form" action="create_acc.php" method="post" style="display: none;" onsubmit="return validateForm();">
                 <h3>Create an Account</h3>
-                <?php
-                if(isset($_SESSION['message'])){
-                    ?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-
-                    <?php
-                } 
-                ?>
+                
+                
                 <span>Username</span>
                 <input type="text" name="name" id="username" class="box" placeholder="Enter your username..." required>
                 <div id="username-error" class="error-message"></div>
@@ -354,7 +313,7 @@ session_start();
                     echo '<div class="swiper-slide box">
                             <div class="icons">
                                 
-                                <a href="#" class="fas fa-heart"></a>
+                                
                                 <a href="single_prod.php?product=' . $row["name"] . '" class="fas fa-eye"></a>
                             </div>
                             <div class="image">
@@ -555,26 +514,9 @@ session_start();
     
     <script src="assets/js/jquery-3.7.0.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <?php
+    <script src="check_login.js"></script>
+    
 
-
-if (isset($_SESSION['auth']) && $_SESSION['auth']) {
-    echo "<script>";
-    echo "console.log('User is logged in.');";
-    echo "</script>";
-} else {
-    echo "<script>";
-    echo "console.log('User is not logged in.');";
-    echo "</script>";
-}
-
-if (isset($_SESSION['message'])) {
-    echo "<script>";
-    echo "console.log('Message from server: " . $_SESSION['message'] . "');";
-    echo "</script>";
-    unset($_SESSION['message']); // Clear the message after displaying
-}
-?>
 
 
 </body>

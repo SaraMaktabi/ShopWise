@@ -43,7 +43,7 @@ include('functions/userfunction.php');
                 <div class="icons">
                     <div id="search-btn" class="fas fa-search"></div>
                     <a href="#" class="fas fa-shopping-cart"></a>
-                    <a href="#" class="fas fa-heart"></a>
+                    
                     
                 </div>
             </div> 
@@ -67,6 +67,11 @@ include('functions/userfunction.php');
         <!--Shopping cart-->
         <section class="featured" id="featured">
     <h1 class="heading"><span>Shopping Cart</span></h1>
+    <?php
+    if(isset($_SESSION['user_id'])){
+        $items = getCartItems($_SESSION['user_id']);
+        if(!empty($items)){
+    ?>
     <div class="swiper">
         <table class="table">
             <thead>
@@ -80,7 +85,7 @@ include('functions/userfunction.php');
             </thead>
             <tbody>
                 <?php
-                $items = getCartItems();
+                $items = getCartItems($_SESSION['user_id']);
                 foreach ($items as $citem) {
                 ?>
                 <tr class="card product_data">
@@ -111,6 +116,14 @@ include('functions/userfunction.php');
             </tbody>
         </table>
     </div>
+    <?php
+        } else {
+            echo "<p>Your cart is empty.</p>";
+        }
+    } else {
+        echo "<p>Please log in to view your cart.</p>";
+    }
+    ?>
 </section>
 
 
