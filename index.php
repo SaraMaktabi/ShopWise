@@ -34,7 +34,7 @@ session_start();
         <header class="header">
             <div class="header-1">
                 <div class="logo">
-                    <a href="#">
+                    <a href="index.php">
                     <img src="images/logo.png" alt="Logo du site">
                     </a>
                 </div>
@@ -57,7 +57,7 @@ session_start();
             </div> 
             <div class="header-2">
                 <nav class="navbar">
-                    <a href="#home">Home</a>
+                    <a href="index.php">Home</a>
                     <a href="#featured">Featured</a>
                     <a href="categories.php">Categories</a>
                     <a href="#reviews">Reviews</a>
@@ -66,7 +66,7 @@ session_start();
         </header>  
         <!--bottom navbar-->
         <nav class="bottom-navbar">
-            <a href="#home" class="fas fa-home"></a>
+            <a href="index.php" class="fas fa-home"></a>
             <a href="#Featured" class="fas fa-list"></a>
             <a href="#Arrivals" class="fas fa-tags"></a>
             <a href="#Reviews" class="fas fa-comments"></a> 
@@ -462,14 +462,14 @@ session_start();
                 </div>
                 <div class="box">
                     <h2>Links</h2>
-                    <a href=""><i class="fas fa-arrow-right"></i>home</a>
-                    <a href=""><i class="fas fa-arrow-right"></i>Featured</a>
-                    <a href=""><i class="fas fa-arrow-right"></i>Arrivals</a>
-                    <a href=""><i class="fas fa-arrow-right"></i>Reviews</a>
+                    <a href="index.php"><i class="fas fa-arrow-right"></i>home</a>
+                    <a href="#featured"><i class="fas fa-arrow-right"></i>Featured</a>
+                    <a href="categories.php"><i class="fas fa-arrow-right"></i>Categories</a>
+                    <a href="#reviews"><i class="fas fa-arrow-right"></i>Reviews</a>
                 </div>
                 <div class="box">
                     <h2>Support</h2>
-                    <a href=""><i class="fas fa-arrow-right"></i>Products</a>
+                    <a href="categories.php"><i class="fas fa-arrow-right"></i>Products</a>
                     <a href=""><i class="fas fa-arrow-right"></i>Help & Support</a>
                     <a href=""><i class="fas fa-arrow-right"></i>FAQ</a>
                     <a href=""><i class="fas fa-arrow-right"></i>Reviews</a>

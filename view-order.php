@@ -64,71 +64,75 @@ include('functions/userfunction.php');
             <a href="#Reviews" class="fas fa-comments"></a> 
         </nav>
 
-        <!--Shopping cart-->
-        <section class="featured" id="featured">
-    <h1 class="heading"><span>Shopping Cart</span></h1>
-    <?php
-    if(isset($_SESSION['user_id'])){
-        $items = getCartItems($_SESSION['user_id']);
-        if(!empty($items)){
-    ?>
-    <div class="swiper">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Remove</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $items = getCartItems($_SESSION['user_id']);
-                foreach ($items as $citem) {
-                ?>
-                <tr class="card product_data">
-                    <td class="col-md-2">
-                        <img src="uploads/<?= $citem['image_p']; ?>" alt="image" width="100px">
-                    </td>
-                    <td class="col-md-4">
-                        <h2><?= $citem['name']; ?></h2>
-                    </td>
-                    <td class="col-md-2">
-                        <h2>$<?= $citem['price']; ?></h2>
-                    </td>
-                    <td class="col-md-3">
-                        <input type="hidden" class="prodId" value="<?= $citem['prod_id'];?>">
-                        <div class="custom-input-group">
-                            <div class="decrement_btn updateqty">-</div>
-                            <input type="text" class="custom-input input-qty" value="<?= $citem['prod_qty']; ?>">
-                            <div class="increment_btn updateqty">+</div>
-                        </div>
-                    </td>
-                    <td class="col-md-2">
-                        <button class="btn deleteitem" value="<?= $citem['cid'];?>"><i class="fa fa-trash"></i> Remove</button>
-                    </td>
-                </tr>
-                <?php
-                }
-                ?>
-                
-            </tbody>
-        </table>
-    </div>
-    
-    <button class="btn" style="border:none"> <a href="checkout.php" style="color:#fff">Proceed to Checkout</a></button>
+        
+    <!-- Order Details Page -->
+    <section class="featured" id="featured">
+        <h1 class="heading"><span>Order Details</span></h1>
+        <?php
+        if(isset($_GET['order_id'])){
+            $order_id = $_GET['order_id'];
+            $order = getOrderDetails($order_id); // Implement this function to get order details by order_id
+            $orderItems = getOrderItems($order_id); // Implement this function to get order items by order_id
 
-    <?php
+            if(!empty($order) && !empty($orderItems)){ // Check if both order and order items are not empty
+        ?>
+        <div class="swiper">
+            <h2>Order Information</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Total Price</th>
+                        <th>Date</th>
+                        <!-- Add more columns for order details here if needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="font-size: 15px;" class="card">
+                        <td><?= $order['id']; ?></td>
+                        <td>$<?= $order['total_price']; ?></td>
+                        <td><?= $order['created_at']; ?></td>
+                        <!-- Add more table rows for order details here if needed -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="swiper">
+            <h2>Order Items</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <!-- Add more columns for order item details here if needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($orderItems as $item) {
+                        echo '<tr>';
+                        echo '<td>' . $item['ame'] . '</td>';
+                        echo '<td>' . $item['qty'] . '</td>';
+                        echo '<td>$' . $item['price'] . '</td>';
+                        // Add more table rows for order item details here if needed
+                        echo '</tr>';
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php
+            } else {
+                echo "<p>Order not found or no items in the order.</p>";
+            }
         } else {
-            echo "<p>Your cart is empty.</p>";
+            echo "<p>Invalid order ID.</p>";
         }
-    } else {
-        echo "<p>Please log in to view your cart.</p>";
-    }
-    ?>
-</section>
+        ?>
+    </section>
 
 
 <style>

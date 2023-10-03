@@ -63,6 +63,59 @@ function getCartItems($user_id){
     return $query_run = mysqli_query($conn, $query);
 }
 
+function getOrders($user_id){
+    global $conn;
+    $query = "SELECT * FROM orders WHERE user_id='$user_id'";
+    
+    return $query_run = mysqli_query($conn, $query);
+}
+
+
+
+// Function to retrieve order details based on order_id
+function getOrderDetails($order_id) {
+    global $conn; // Assuming $conn is your database connection
+
+    // Perform a database query to fetch order details
+    $sql = "SELECT * FROM orders WHERE id = $order_id"; // Adjust your table name and structure
+    $result = mysqli_query($conn, $sql);
+
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+
+    // Assuming you expect only one row for the order details
+    $order_details = mysqli_fetch_assoc($result);
+
+    return $order_details;
+}
+
+// Function to retrieve order items based on order_id
+function getOrderItems($order_id) {
+    global $conn; // Assuming $conn is your database connection
+
+    // Perform a database query to fetch order items along with product names
+    $sql = "SELECT oi.*, p.product_name FROM order_items oi
+            INNER JOIN products p ON oi.product_id = p.id
+            WHERE oi.order_id = $order_id"; // Adjust your table and column names
+    $result = mysqli_query($conn, $sql);
+
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+
+    // Collect all order items into an array
+    $order_items = array();
+    while ($row = mysqli_fetch_assoc($result)) {
+        $order_items[] = $row;
+    }
+
+    return $order_items;
+}
+
+
+
+
 
 function redirect($url, $message) {
     $_SESSION['message'] = $message;

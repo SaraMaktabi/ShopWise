@@ -1,8 +1,8 @@
 <?php
-session_start(); // Démarrez la session si ce n'est pas déjà fait
+session_start(); 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Assurez-vous d'avoir inclus le fichier de connexion à la base de données ici
+    
     require_once "config/dbconn.php";
 
     // Récupérez les données du formulaire
@@ -12,17 +12,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $cpassword = $_POST["cpassword"];
 
-    // Vérification basique des champs (vous pouvez ajouter davantage de validations ici)
+    // Vérification basique des champs
     if ($password != $cpassword) {
         $_SESSION['message'] = "Passwords do not match.";
-        header("Location: categories.php"); // Redirigez vers la page du formulaire avec un message d'erreur
+        header("Location: categories.php"); 
         exit();
     }
 
     // Hashage du mot de passe
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // Connexion à la base de données (remplacez les informations de connexion par les vôtres)
+    // Connexion à la base de données 
     $servername = "localhost";
     $username_db = "root";
     $password_db = "";

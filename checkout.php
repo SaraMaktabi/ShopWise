@@ -66,7 +66,7 @@ include('functions/userfunction.php');
 
         <!--Shopping cart-->
         <section class="featured" id="featured">
-    <h1 class="heading"><span>Shopping Cart</span></h1>
+    <h1 class="heading"><span>Checkout </span></h1>
     <?php
     if(isset($_SESSION['user_id'])){
         $items = getCartItems($_SESSION['user_id']);
@@ -80,12 +80,13 @@ include('functions/userfunction.php');
                     <th>Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Remove</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $items = getCartItems($_SESSION['user_id']);
+                $totalPrice = 0;
                 foreach ($items as $citem) {
                 ?>
                 <tr class="card product_data">
@@ -98,28 +99,55 @@ include('functions/userfunction.php');
                     <td class="col-md-2">
                         <h2>$<?= $citem['price']; ?></h2>
                     </td>
-                    <td class="col-md-3">
-                        <input type="hidden" class="prodId" value="<?= $citem['prod_id'];?>">
-                        <div class="custom-input-group">
-                            <div class="decrement_btn updateqty">-</div>
-                            <input type="text" class="custom-input input-qty" value="<?= $citem['prod_qty']; ?>">
-                            <div class="increment_btn updateqty">+</div>
-                        </div>
-                    </td>
                     <td class="col-md-2">
-                        <button class="btn deleteitem" value="<?= $citem['cid'];?>"><i class="fa fa-trash"></i> Remove</button>
+                        <h2><?= $citem['prod_qty']; ?></h2>
                     </td>
                 </tr>
                 <?php
+                $totalPrice += $citem['price'] * $citem['prod_qty'];
                 }
                 ?>
                 
             </tbody>
         </table>
+        <h1 style="font-size: x-large;">Total Price: $<?= $totalPrice ?>  </h1>
+    </div>
+    <br>
+    <br>
+
+    <div class="form-container">
+        <form action="placeorder.php" method="POST">
+            <br>
+                <h1 class="heading"><span>Basic details</span></h1>
+                    <hr class="hr">
+                <div class="row">
+                    <div class="">
+                        <label class="label">Name</label>
+                        <input type="text" name="name" placeholder="Enter your name..." class="form-control" >
+                    </div>
+                    <div class="">
+                        <label class="label">E-mail</label>
+                        <input type="email" name="email" placeholder="Enter your email..." class="form-control" >
+                    </div>
+                    <div class="">
+                        <label class="label">Phone</label>
+                        <input type="text" name="phone" placeholder="Enter your Phone number..." class="form-control" >
+                    </div>
+                    <div class="">
+                        <label class="label">Pin Code</label>
+                        <input type="text" name="pincode" placeholder="Enter your pin code..." class="form-control" >
+                    </div>
+                    <div class="">
+                        <label class="label">Address</label>
+                        <textarea name="address"  rows="10" class="form-control" ></textarea>
+                    </div>
+                </div>
+            <button class="btn" type="submit" name="placeOrderBtn" style="border:none"> Confirm and place order</button>
+
+        </form>
+        
     </div>
     
-    <button class="btn" style="border:none"> <a href="checkout.php" style="color:#fff">Proceed to Checkout</a></button>
-
     <?php
         } else {
             echo "<p>Your cart is empty.</p>";
@@ -132,7 +160,14 @@ include('functions/userfunction.php');
 
 
 <style>
-
+.swiper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            text-align: center;
+        }
 
 /* Stylisation du tableau */
 .table {
@@ -229,6 +264,72 @@ include('functions/userfunction.php');
                         .input-addon:hover {
                             background-color: #e0e0e0;
                         }
+
+                        /* Style du conteneur principal */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style du titre */
+.heading {
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Style des labels */
+.label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+/* Style des champs de saisie */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* Style du bouton de soumission */
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Style de la ligne de séparation */
+.hr {
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+}
+
+/* Style du champ de texte "Address" */
+textarea.form-control {
+    height: 150px;
+}
+
+/* Style pour les erreurs de validation (facultatif) */
+.error-message {
+    color: #ff0000;
+    font-size: 14px;
+}
+
+/* Style pour les messages de succès (facultatif) */
+.success-message {
+    color: #00cc00;
+    font-size: 14px;
+}
 
             
 </style>

@@ -66,59 +66,53 @@ include('functions/userfunction.php');
 
         <!--Shopping cart-->
         <section class="featured" id="featured">
-    <h1 class="heading"><span>Shopping Cart</span></h1>
+    <h1 class="heading"><span>My orders Page</span></h1>
     <?php
     if(isset($_SESSION['user_id'])){
         $items = getCartItems($_SESSION['user_id']);
         if(!empty($items)){
     ?>
     <div class="swiper">
-        <table class="table">
+    <table class="table">
             <thead>
                 <tr>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Remove</th>
+                    <th>Order Number</th>
+                    <th>Total Price</th>
+                    <th>Date</th>
+                    <th>Details</th> 
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $items = getCartItems($_SESSION['user_id']);
-                foreach ($items as $citem) {
+                <?php 
+                    $orders = getOrders($_SESSION['user_id']);
+
+                    if(mysqli_num_rows($orders) > 0){
+                        foreach($orders as $item){
+                            ?>
+                            <tr style="font-size: 15px;" class="card">
+                                <td > <?= $item['id']; ?> </td>
+                                <td>$<?= $item['total_price']; ?> </td>
+                                <td> <?= $item['created_at']; ?> </td>
+                                <td><form action="view-order.php" method="GET">
+                                    <input type="hidden" name="order_id" value="<?= $item['id']; ?>">
+                                    <button type="submit" class="btn" style="background-color:#b97375;">View Details</button>
+                                </form></td>
+
+                            </tr>
+                            <?php
+                        }
+                    }else{
+                        ?>
+                            <tr>
+                               <td colspan="5">No Orders Yet</td>
+                            </tr>
+                            <?php
+                    }
                 ?>
-                <tr class="card product_data">
-                    <td class="col-md-2">
-                        <img src="uploads/<?= $citem['image_p']; ?>" alt="image" width="100px">
-                    </td>
-                    <td class="col-md-4">
-                        <h2><?= $citem['name']; ?></h2>
-                    </td>
-                    <td class="col-md-2">
-                        <h2>$<?= $citem['price']; ?></h2>
-                    </td>
-                    <td class="col-md-3">
-                        <input type="hidden" class="prodId" value="<?= $citem['prod_id'];?>">
-                        <div class="custom-input-group">
-                            <div class="decrement_btn updateqty">-</div>
-                            <input type="text" class="custom-input input-qty" value="<?= $citem['prod_qty']; ?>">
-                            <div class="increment_btn updateqty">+</div>
-                        </div>
-                    </td>
-                    <td class="col-md-2">
-                        <button class="btn deleteitem" value="<?= $citem['cid'];?>"><i class="fa fa-trash"></i> Remove</button>
-                    </td>
-                </tr>
-                <?php
-                }
-                ?>
-                
             </tbody>
         </table>
     </div>
     
-    <button class="btn" style="border:none"> <a href="checkout.php" style="color:#fff">Proceed to Checkout</a></button>
 
     <?php
         } else {

@@ -7,7 +7,7 @@
                     <input type="text" class="form-control">
                     <!--try-->
                     <div class="notification-icon">
-                        <!-- Ici, vous pouvez ajouter l'icône de votre choix (par exemple, une icône de cloche) -->
+                        
                         <a href="notif.php" class="fas fa-bell" id="notif"></a>
                         <!-- Afficher le badge uniquement lorsque le stock est bas -->
                         <?php

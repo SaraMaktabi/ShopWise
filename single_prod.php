@@ -45,14 +45,14 @@ include('functions/userfunction.php');
                 </form>
                 <div class="icons">
                     <div id="search-btn" class="fas fa-search"></div>
-                    <a href="#" class="fas fa-shopping-cart"></a>
+                    <a href="cart.php" class="fas fa-shopping-cart"></a>
                     
                     
                 </div>
             </div> 
             <div class="header-2">
                 <nav class="navbar">
-                    <a href="#home">Home</a>
+                    <a href="index.php">Home</a>
                     <a href="#Featured">Featured</a>
                     <a href="#Arrivals">Categories</a>
                     <a href="#Reviews">Reviews</a>
@@ -104,7 +104,7 @@ include('functions/userfunction.php');
                                     </div>
                                 </div>
                                 <button class="addToCartBtn" value="<?= $product['ID_PRODUIT']; ?>"><i class="fas fa-shopping-cart"> Add to Cart</i> </button>
-                                <button class="addToCartBtn"><i class="fas fa-heart"> Add to Wishlist</i></button>
+                                <!--<button class="addToCartBtn"><i class="fas fa-heart"> Add to Wishlist</i></button>-->
                             </div>
                         </div>
                     </div>

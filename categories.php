@@ -29,7 +29,7 @@ include('functions/userfunction.php');
         <header class="header">
             <div class="header-1">
                 <div class="logo">
-                    <a href="#">
+                    <a href="index.php">
                     <img src="images/logo.png" alt="Logo du site">
                     </a>
                 </div>
@@ -39,23 +39,23 @@ include('functions/userfunction.php');
                 </form>
                 <div class="icons">
                     <div id="search-btn" class="fas fa-search"></div>
-                    <a href="#" class="fas fa-shopping-cart"></a>
+                    <a href="cart.php" class="fas fa-shopping-cart"></a>
                     
                     
                 </div>
             </div> 
             <div class="header-2">
                 <nav class="navbar">
-                    <a href="#home">Home</a>
+                    <a href="index.php">Home</a>
                     <a href="#Featured">Featured</a>
-                    <a href="#Arrivals">Categories</a>
+                    <a href="categories.php">Categories</a>
                     <a href="#Reviews">Reviews</a>
                 </nav>
             </div> 
         </header>  
         <!--bottom navbar-->
         <nav class="bottom-navbar">
-            <a href="#home" class="fas fa-home"></a>
+            <a href="index.php" class="fas fa-home"></a>
             <a href="#Featured" class="fas fa-list"></a>
             <a href="#Arrivals" class="fas fa-tags"></a>
             <a href="#Reviews" class="fas fa-comments"></a> 
