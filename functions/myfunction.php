@@ -58,4 +58,17 @@ function redirect($url, $message) {
     header("Location: $url");
     exit();
 }
+
+function getAllOrders() {
+    global $conn;
+    $query = "SELECT * FROM orders WHERE status='0'";
+    $result = mysqli_query($conn, $query);
+
+    if (!$result) {
+        // Query execution failed, handle the error
+        die("Error: " . mysqli_error($conn));
+    }
+
+    return $result;
+}
 ?>

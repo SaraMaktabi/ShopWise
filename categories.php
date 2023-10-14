@@ -95,7 +95,7 @@ include('functions/userfunction.php');
             <style>
                 #categ {
                     display: inline-block;
-                    margin: 5px;
+                    margin: 3px;
                 }
 
                 .category-name {

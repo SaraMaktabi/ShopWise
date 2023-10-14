@@ -93,10 +93,9 @@ include('functions/userfunction.php');
                                 <td > <?= $item['id']; ?> </td>
                                 <td>$<?= $item['total_price']; ?> </td>
                                 <td> <?= $item['created_at']; ?> </td>
-                                <td><form action="view-order.php" method="GET">
-                                    <input type="hidden" name="order_id" value="<?= $item['id']; ?>">
+                                <td>
                                     <button type="submit" class="btn" style="background-color:#b97375;">View Details</button>
-                                </form></td>
+                                </td>
 
                             </tr>
                             <?php

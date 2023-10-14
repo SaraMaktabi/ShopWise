@@ -67,72 +67,73 @@ include('functions/userfunction.php');
         
     <!-- Order Details Page -->
     <section class="featured" id="featured">
-        <h1 class="heading"><span>Order Details</span></h1>
-        <?php
-        if(isset($_GET['order_id'])){
-            $order_id = $_GET['order_id'];
-            $order = getOrderDetails($order_id); // Implement this function to get order details by order_id
-            $orderItems = getOrderItems($order_id); // Implement this function to get order items by order_id
+    <h1 class="heading"><span>Order Details</span></h1>
+    <?php
+    if(isset($_GET['order_id'])){
+        $order_id = $_GET['order_id'];
+        $order = getOrderDetails($order_id); // Implement this function to get order details by order_id
+        $orderItems = getOrderItems($order_id); // Implement this function to get order items by order_id
 
-            if(!empty($order) && !empty($orderItems)){ // Check if both order and order items are not empty
-        ?>
-        <div class="swiper">
-            <h2>Order Information</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order Number</th>
-                        <th>Total Price</th>
-                        <th>Date</th>
-                        <!-- Add more columns for order details here if needed -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="font-size: 15px;" class="card">
-                        <td><?= $order['id']; ?></td>
-                        <td>$<?= $order['total_price']; ?></td>
-                        <td><?= $order['created_at']; ?></td>
-                        <!-- Add more table rows for order details here if needed -->
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        if(!empty($order) && !empty($orderItems)){ // Check if both order and order items are not empty
+    ?>
+    <div class="swiper">
+        <h2>Order Information</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order Number</th>
+                    <th>Total Price</th>
+                    <th>Date</th>
+                    <!-- Add more columns for order details here if needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="font-size: 15px;" class="card">
+                    <td><?= $order['id']; ?></td>
+                    <td>$<?= $order['total_price']; ?></td>
+                    <td><?= $order['created_at']; ?></td>
+                    <!-- Add more table rows for order details here if needed -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="swiper">
-            <h2>Order Items</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <!-- Add more columns for order item details here if needed -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($orderItems as $item) {
-                        echo '<tr>';
-                        echo '<td>' . $item['ame'] . '</td>';
-                        echo '<td>' . $item['qty'] . '</td>';
-                        echo '<td>$' . $item['price'] . '</td>';
-                        // Add more table rows for order item details here if needed
-                        echo '</tr>';
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="swiper">
+        <h2>Order Items</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <!-- Add more columns for order item details here if needed -->
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($orderItems as $item) {
+                    echo '<tr>';
+                    echo '<td>' . $item['product_name'] . '</td>'; // Use the correct column name
+                    echo '<td>' . $item['quantity'] . '</td>'; // Use the correct column name
+                    echo '<td>$' . $item['price'] . '</td>'; // Use the correct column name
+                    // Add more table rows for order item details here if needed
+                    echo '</tr>';
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 
-        <?php
-            } else {
-                echo "<p>Order not found or no items in the order.</p>";
-            }
-        } else {
-            echo "<p>Invalid order ID.</p>";
+    <?php
+        }  else {
+            echo "<p>Order not found or no items in the order.</p>";
         }
-        ?>
-    </section>
+    } else {
+        echo "<p>Invalid order ID.</p>";
+    }
+    ?>
+</section>
+
 
 
 <style>

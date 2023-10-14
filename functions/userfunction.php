@@ -65,7 +65,7 @@ function getCartItems($user_id){
 
 function getOrders($user_id){
     global $conn;
-    $query = "SELECT * FROM orders WHERE user_id='$user_id'";
+    $query = "SELECT * FROM orders WHERE user_id='$user_id' ORDER BY created_at DESC";
     
     return $query_run = mysqli_query($conn, $query);
 }
@@ -94,11 +94,26 @@ function getOrderDetails($order_id) {
 function getOrderItems($order_id) {
     global $conn; // Assuming $conn is your database connection
 
-    // Perform a database query to fetch order items along with product names
-    $sql = "SELECT oi.*, p.product_name FROM order_items oi
-            INNER JOIN products p ON oi.product_id = p.id
-            WHERE oi.order_id = $order_id"; // Adjust your table and column names
-    $result = mysqli_query($conn, $sql);
+    // Use prepared statement to prevent SQL injection
+    $sql = "SELECT oi.*, p.name FROM order_items oi
+            INNER JOIN produits p ON oi.id = p.ID_PRODUIT
+            WHERE oi.order_id = ?";
+
+    // Prepare the statement
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if (!$stmt) {
+        die("Prepare failed: " . mysqli_error($conn)); // Add error handling for preparation failure
+    }
+
+    // Bind the order_id parameter
+    mysqli_stmt_bind_param($stmt, "i", $order_id);
+
+    // Execute the statement
+    mysqli_stmt_execute($stmt);
+
+    // Get the result set
+    $result = mysqli_stmt_get_result($stmt);
 
     if (!$result) {
         die("Query failed: " . mysqli_error($conn));
@@ -110,8 +125,13 @@ function getOrderItems($order_id) {
         $order_items[] = $row;
     }
 
+    // Close the prepared statement
+    mysqli_stmt_close($stmt);
+
     return $order_items;
 }
+
+
 
 
 

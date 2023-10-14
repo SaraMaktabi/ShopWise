@@ -106,7 +106,7 @@ if(isset($_GET['category'])){
                     <style>
                         #categ {
                             display: inline-block;
-                            margin: 5px;
+                            margin: 3px;
                         }
 
                         .category-name {
